@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Accommodation – FJ-SP-2026-Sep</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<style>
+    /* ======================================================
+       Root variables
+       ====================================================== */
+    :root {
+      --bg-main: #eefbff;
+      --bg-card: rgba(255,255,255,0.94);
+      --bg-card-soft: rgba(255,255,255,0.98);
+      --border-soft: rgba(8,145,178,0.16);
+      --text-main: #15365f;
+      --text-muted: #49657f;
+      --accent-blue: #0891b2;
+      --accent-teal: #0ea5a7;
+      --accent-soft: rgba(8,145,178,0.12);
+      --badge: rgba(255,255,255,0.82);
+      --card: rgba(255,255,255,0.94);
+      --card-soft: rgba(255,255,255,0.98);
+      --bg: #eefbff;
+      --accent: #0891b2;
+      --text-soft: #49657f;
+      --border-subtle: rgba(8,145,178,0.16);
+      --chip-bg: rgba(255,255,255,0.82);
+      --chip-border: rgba(8,145,178,0.22);
+      --shadow-soft: 0 10px 28px rgba(15,118,110,0.12);
+      --radius-xl: 18px;
+      --radius-pill: 999px;
+    }
+
+    /* ======================================================
+       Global reset & base
+       ====================================================== */
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
+      background:
+        linear-gradient(rgba(235,250,253,.76), rgba(244,252,253,.93) 42%, rgba(244,252,253,.98)),
+        url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top / cover fixed;
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 16px 40px;
+    }
+
+    /* ======================================================
+       Header
+       ====================================================== */
+    .page-header { text-align: center; }
+    .page-header .toolbar { justify-content: center; }
+
+    .breadcrumb {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .title {
+      font-size: 30px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      font-size: 12px;
+      color: #9ca3af;
+      text-transform: uppercase;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 26px;
+      align-items: center;
+    }
+
+    .pill-button {
+      border-radius: var(--radius-pill);
+      border: 1px solid #374151;
+      background: rgba(15,23,42,0.9);
+      color: var(--text-main);
+      font-size: 13px;
+      padding: 6px 14px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ======================================================
+       Section headers
+       ====================================================== */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 12px 0 10px;
+    }
+
+    .section-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .section-header-left .emoji { font-size: 18px; }
+
+    .section-header-meta {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    /* ======================================================
+       Cards & layout
+       ====================================================== */
+    .cards {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card {
+      background: transparent;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 18px 6px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .card-title { font-size: 15px; font-weight: 600; color: #93c5fd; }
+
+    .card-city {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-soft);
+    }
+
+    .badge-nights {
+      background: transparent;
+      padding: 0;
+      margin-top: 2px;
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .stay-label {
+      font-weight: 500;
+      color: #d1d5db;
+      margin-right: 4px;
+    }
+
+    .stay-value {
+      color: var(--text-soft);
+    }
+
+    /* ======================================================
+       Meta rows (card content)
+       ====================================================== */
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-top: 6px;
+    }
+
+    .meta-label {
+      font-weight: 500;
+      color: #d1d5db;
+      margin-right: 4px;
+    }
+
+    .detail-row {
+      margin-top: 4px;
+      font-size: 13px;
+    }
+
+    .detail-row a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+
+    .detail-row a:hover { text-decoration: underline; }
+
+    /* ======================================================
+       Card footer (action pills)
+       ====================================================== */
+    .card-footer {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .link-pill {
+      border-radius: var(--radius-pill);
+      border: 1px solid #4b5563;
+      padding: 4px 10px;
+      font-size: 11px;
+      text-decoration: none;
+      color: #e5e7eb;
+      background: #020617;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    /* ======================================================
+       In-page map modal
+       ====================================================== */
+    .map-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 6, 11, 0.88);
+      display: none;
+      flex-direction: column;
+      z-index: 9998;
+    }
+
+    .map-modal-header {
+      height: 52px;
+      background: #0b1020;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      color: #f9fafb;
+      font-size: 14px;
+    }
+
+    .map-modal-title {
+      font-weight: 600;
+    }
+
+    .map-modal-close {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: #020617;
+      color: #f9fafb;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+
+    .map-modal-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .map-open-link {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: #020617;
+      color: #f9fafb;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .map-modal iframe {
+      width: 100%;
+      height: calc(100vh - 52px);
+      border: 0;
+      background: #020617;
+    }
+
+    /* ======================================================
+       In-page hotel website hub modal
+       ====================================================== */
+    .website-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 6, 11, 0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 9998;
+    }
+
+    .website-panel {
+      width: min(560px, 100%);
+      background: linear-gradient(145deg, #0b1020, #111827);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .website-modal-header {
+      background: #0b1020;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      padding: 16px 18px 14px;
+      color: #f9fafb;
+    }
+
+    .website-modal-kicker {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .website-modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .website-modal-body {
+      padding: 16px 18px 18px;
+    }
+
+    .website-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .website-detail {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      background: rgba(2,6,23,0.55);
+      padding: 10px 12px;
+    }
+
+    .website-detail-label {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-bottom: 3px;
+    }
+
+    .website-detail-value {
+      font-size: 14px;
+      color: #f9fafb;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .website-modal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .website-action,
+    .website-modal-close {
+      border-radius: var(--radius-pill);
+      border: 1px solid #4b5563;
+      background: #020617;
+      color: #e5e7eb;
+      padding: 8px 13px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      flex: 1 1 auto;
+    }
+
+    .website-action.primary {
+      color: #93c5fd;
+      border-color: rgba(147,197,253,0.45);
+      background: rgba(37,99,235,0.12);
+    }
+
+    @media (max-width: 640px) {
+      .website-modal {
+        align-items: flex-end;
+        padding: 10px;
+      }
+
+      .website-panel {
+        border-radius: 20px 20px 14px 14px;
+      }
+
+      .website-action,
+      .website-modal-close {
+        flex-basis: 100%;
+        padding: 10px 13px;
+      }
+    }
+
+
+
+    /* ======================================================
+       In-page hotel website browser wrapper
+       ====================================================== */
+    .website-browser-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 6, 11, 0.88);
+      display: none;
+      flex-direction: column;
+      z-index: 9998;
+    }
+
+    .website-browser-modal-header {
+      height: 52px;
+      background: #0b1020;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      color: #f9fafb;
+      font-size: 14px;
+    }
+
+    .website-browser-modal-title {
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-right: 12px;
+    }
+
+    .website-browser-modal-close {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: #020617;
+      color: #f9fafb;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .website-browser-modal iframe {
+      width: 100%;
+      height: calc(100vh - 52px);
+      border: 0;
+      background: #020617;
+    }
+
+    /* ======================================================
+       In-page reservation details hub modal
+       ====================================================== */
+    .reservation-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 6, 11, 0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 9998;
+    }
+
+    .reservation-panel {
+      width: min(560px, 100%);
+      background: linear-gradient(145deg, #0b1020, #111827);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .reservation-modal-header {
+      background: #0b1020;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      padding: 16px 18px 14px;
+      color: #f9fafb;
+    }
+
+    .reservation-modal-kicker {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .reservation-modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .reservation-modal-body {
+      padding: 16px 18px 18px;
+    }
+
+    .reservation-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .reservation-detail {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      background: rgba(2,6,23,0.55);
+      padding: 10px 12px;
+    }
+
+    .reservation-detail.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .reservation-detail-label {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-bottom: 3px;
+    }
+
+    .reservation-detail-value {
+      font-size: 14px;
+      color: #f9fafb;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .reservation-modal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .reservation-action,
+    .reservation-modal-close {
+      border-radius: var(--radius-pill);
+      border: 1px solid #4b5563;
+      background: #020617;
+      color: #e5e7eb;
+      padding: 8px 13px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      flex: 1 1 auto;
+    }
+
+    .reservation-action.primary {
+      color: #93c5fd;
+      border-color: rgba(147,197,253,0.45);
+      background: rgba(37,99,235,0.12);
+    }
+
+    @media (max-width: 640px) {
+      .reservation-modal {
+        align-items: flex-end;
+        padding: 10px;
+      }
+
+      .reservation-panel {
+        border-radius: 20px 20px 14px 14px;
+      }
+
+      .reservation-detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reservation-action,
+      .reservation-modal-close {
+        flex-basis: 100%;
+        padding: 10px 13px;
+      }
+    }
+
+    /* ======================================================
+       Footer nav
+       ====================================================== */
+    .footer-nav {
+      margin-top: 28px;
+      padding-top: 0;
+      border-top: none;
+      font-size: 12px;
+      color: var(--text-soft);
+      text-align: center;
+    }
+
+    .footer-line {
+      max-width: 980px;
+      margin: 0 auto;
+      line-height: 1.45;
+      color: var(--text-soft);
+    }
+
+    .footer-line a {
+      color: #4f8cff;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .footer-line a:hover {
+      text-decoration: underline;
+    }
+
+    .desktop-only { display: inline; }
+    .mobile-only { display: none; }
+
+    /* ======================================================
+       Offline overlay
+       ====================================================== */
+    .offline-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,6,11,0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .offline-box {
+      max-width: 420px;
+      margin: 20px;
+      padding: 20px 22px;
+      background: linear-gradient(145deg,var(--bg-card, #11141f),var(--bg-soft, #181b26));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.65);
+      text-align: center;
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+
+    .offline-box h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .offline-box p {
+      margin: 0 0 16px;
+      font-size: 14px;
+      color: #b5bed5;
+      line-height: 1.4;
+    }
+
+    .offline-box button {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(78,168,255,0.15);
+      color: #4ea8ff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* ======================================================
+       Mobile overrides
+       ====================================================== */
+    @media (max-width: 640px) {
+      .card {
+        background: var(--bg-card);
+      }
+
+      .subtitle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        text-align: center;
+      }
+
+      .subtitle-dates {
+        font-size: 13px;
+      }
+
+      .meta-row {
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .detail-row {
+        margin-top: 6px;
+      }
+
+      .card-footer {
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .card-footer .link-pill {
+        flex: 1 1 calc(50% - 6px);
+        text-align: center;
+      }
+
+      .footer-line {
+        line-height: 1.8;
+      }
+
+      .desktop-only { display: none; }
+      .mobile-only { display: inline; }
+    }
+
+  
+    .room-row .room-value,
+    .phone-row .phone-value {
+      font-weight: 400;
+      color: var(--text-soft);
+    }
+
+
+/* ======================================================
+   Fiji Trip Home visual alignment
+   ====================================================== */
+.page {
+  max-width: 1180px;
+  padding: 28px 18px 80px;
+}
+
+.breadcrumb {
+  color: #0f6f88;
+  letter-spacing: .22em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: clamp(28px,3.6vw,42px);
+  font-weight: 800;
+  color: #15365f;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6);
+}
+
+.subtitle {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #244c72;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.toolbar {
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.pill-button,
+.link-pill,
+.website-action,
+.website-modal-close,
+.reservation-action,
+.reservation-modal-close,
+.offline-box button {
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(8,145,178,.22);
+  background: rgba(255,255,255,.82);
+  color: #15365f;
+  box-shadow: 0 8px 20px rgba(8,145,178,.10);
+  backdrop-filter: blur(8px);
+}
+
+.pill-button {
+  padding: 8px 15px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.link-pill {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0891b2;
+}
+
+.link-pill:hover,
+.pill-button:hover {
+  background: rgba(255,255,255,.96);
+  border-color: rgba(8,145,178,.38);
+}
+
+.card {
+  background: linear-gradient(180deg,var(--bg-card),var(--bg-card-soft));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
+  padding: 18px 19px;
+}
+
+.card-title {
+  color: #15365f;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.section-header-left {
+  color: #15365f;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.section-header-meta,
+.meta-row,
+.badge-nights,
+.stay-value,
+.room-row .room-value,
+.phone-row .phone-value,
+.footer-line {
+  color: #49657f;
+}
+
+.meta-label,
+.stay-label {
+  color: #244c72;
+  font-weight: 700;
+}
+
+.detail-row a,
+.footer-line a {
+  color: #0891b2;
+  font-weight: 700;
+}
+
+.map-modal,
+.website-modal,
+.website-browser-modal,
+.reservation-modal,
+.offline-overlay {
+  background: rgba(21,54,95,0.34);
+  backdrop-filter: blur(10px);
+}
+
+.map-modal-header,
+.website-modal-header,
+.website-browser-modal-header,
+.reservation-modal-header {
+  background: rgba(255,255,255,0.96);
+  border-bottom: 1px solid rgba(8,145,178,0.16);
+  color: #15365f;
+}
+
+.map-modal-close,
+.website-browser-modal-close {
+  border: 1px solid rgba(8,145,178,.22);
+  background: rgba(255,255,255,.82);
+  color: #15365f;
+  border-radius: 999px;
+}
+
+.website-panel,
+.reservation-panel,
+.offline-box {
+  background: linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,255,255,0.99));
+  border: 1px solid rgba(8,145,178,0.16);
+  box-shadow: 0 20px 40px rgba(15,118,110,.18);
+  color: #15365f;
+}
+
+.website-modal-kicker,
+.reservation-modal-kicker,
+.website-detail-label,
+.reservation-detail-label {
+  color: #0891b2;
+}
+
+.website-modal-title,
+.reservation-modal-title,
+.website-detail-value,
+.reservation-detail-value,
+.offline-box h2 {
+  color: #15365f;
+}
+
+.website-detail,
+.reservation-detail {
+  background: rgba(238,251,255,0.72);
+  border: 1px solid rgba(8,145,178,0.12);
+}
+
+.website-action.primary,
+.reservation-action.primary {
+  color: #ffffff;
+  background: linear-gradient(135deg,#0ea5b7,#0284c7);
+  border-color: transparent;
+}
+
+.offline-box p {
+  color: #49657f;
+}
+
+.footer-nav {
+  margin-top: 32px;
+}
+
+@media (max-width: 640px) {
+  .card {
+    background: linear-gradient(180deg,var(--bg-card),var(--bg-card-soft));
+  }
+}
+
+
+.booking-row {
+  margin-top: 4px;
+}
+.booking-row .room-value {
+  color: #49657f;
+  font-weight: 400;
+}
+
+
+/* ======================================================
+   Modal layout correction - keep Japan behaviour, Fiji colours
+   ====================================================== */
+.website-modal,
+.reservation-modal {
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 18px !important;
+}
+
+.website-panel,
+.reservation-panel {
+  width: min(560px, calc(100% - 36px)) !important;
+  max-width: 560px !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+}
+
+.website-modal-body,
+.reservation-modal-body {
+  padding: 16px 18px 18px !important;
+}
+
+.website-detail-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+  margin-bottom: 16px !important;
+}
+
+.website-detail,
+.reservation-detail {
+  min-height: auto !important;
+  height: auto !important;
+}
+
+.website-modal-actions,
+.reservation-modal-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-top: 6px !important;
+}
+
+.website-action,
+.website-modal-close,
+.reservation-action,
+.reservation-modal-close {
+  flex: 1 1 auto !important;
+  min-height: 38px !important;
+  height: auto !important;
+  padding: 8px 13px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: normal !important;
+}
+
+.website-browser-modal {
+  flex-direction: column !important;
+}
+
+.map-modal {
+  flex-direction: column !important;
+}
+
+@media (max-width: 640px) {
+  .website-modal,
+  .reservation-modal {
+    align-items: flex-end !important;
+    justify-content: center !important;
+    padding: 10px !important;
+  }
+
+  .website-panel,
+  .reservation-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 20px 20px 14px 14px !important;
+  }
+
+  .website-action,
+  .website-modal-close,
+  .reservation-action,
+  .reservation-modal-close {
+    flex-basis: 100% !important;
+    padding: 10px 13px !important;
+  }
+
+  .reservation-detail-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Grand/Ramada contact-row link alignment */
+.phone-row a {
+  color: #0000ee !important;
+  text-decoration: underline !important;
+  font-weight: 400 !important;
+}
+
+.phone-row a:visited {
+  color: #551a8b !important;
+}
+
+
+/* Grand Pacific contact row inline alignment */
+.gp-contact-row {
+  display: block;
+  line-height: 1.45;
+}
+
+</style>
+</head>
+<body>
+<main class="page">
+<div class="page-header">
+<div class="breadcrumb">FJ-SP-2026-Sep · Fiji Trip</div>
+<h1 class="title">Accommodation</h1>
+<p class="subtitle">
+<span class="subtitle-main">Stays for Fiji trip</span>
+<span class="subtitle-dates">(30 Aug 2026 → 4 Sep 2026)</span>
+</p>
+<div class="toolbar">
+<a class="pill-button" href="https://fj-sp-2026-sep.trekworks.org/" style="color:#0891b2;">
+        ← Back to Trip Home
+      </a>
+</div>
+</div>
+<!-- Accommodation details for the new trip -->
+<section>
+<div class="section-header">
+<div class="section-header-left"><span class="emoji">🏨</span> Fiji · 30 Aug → 4 Sep</div>
+</div>
+<div class="cards">
+<article class="card">
+<div class="card-header">
+<div>
+<div class="card-title">Accommodation details</div>
+</div>
+</div>
+<div class="meta-row">
+<div><span class="meta-label">Trip dates:</span> <span class="room-value">30 Aug to 4 Sep 2026</span></div>
+<div><span class="meta-label">Status:</span> <span class="room-value">Awaiting confirmed accommodation details</span></div>
+</div>
+<div class="meta-row">
+<div><span class="meta-label">To add:</span> <span class="room-value">Property, location, booking reference, room details, check-in and check-out information.</span></div>
+</div>
+</article>
+</div>
+</section>
+<div class="toolbar bottom-home-toolbar" style="justify-content:center; margin: 28px 0 0;">
+<a class="pill-button" href="https://fj-sp-2026-sep.trekworks.org/" style="color:#0891b2;">← Back to Trip Home</a>
+</div>
+<footer class="footer-nav">
+<div class="footer-line desktop-only">
+  For trip activities, see
+  <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-activities.html">Activities</a>.
+  For flights, see
+  <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-flights.html">Flights</a>.
+  For hire car and transport, see
+  <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-hire-car.html">Hire Car</a>.
+  For trip tasks, see
+  <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-task-list.html">Task List</a>.
+</div>
+<div class="footer-line mobile-only">
+  See
+  <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-activities.html">Activities</a>,
+  <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-flights.html">Flights</a>,
+  <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-hire-car.html">Hire Car</a>
+  and
+  <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-task-list.html">Task List</a>.
+</div>
+</footer>
+</main>
+<div class="map-modal" id="mapModal">
+<div class="map-modal-header">
+<div class="map-modal-title">Map</div>
+<div class="map-modal-actions">
+<a class="map-open-link" href="#" id="mapOpenLink" rel="noopener" target="_blank">Open in Maps ↗</a>
+<button class="map-modal-close" onclick="closeMapModal()">X Close</button>
+</div>
+</div>
+<iframe id="mapFrame" loading="lazy" src=""></iframe>
+</div>
+<div class="website-modal" id="websiteModal">
+<div aria-labelledby="websiteModalTitle" aria-modal="true" class="website-panel" role="dialog">
+<div class="website-modal-header">
+<div class="website-modal-kicker">Hotel website</div>
+<div class="website-modal-title" id="websiteModalTitle">Hotel Website</div>
+</div>
+<div class="website-modal-body">
+<div class="website-detail-grid">
+<div class="website-detail">
+<div class="website-detail-label">Hotel</div>
+<div class="website-detail-value" id="websiteHotel">—</div>
+</div>
+<div class="website-detail">
+<div class="website-detail-label">Website</div>
+<div class="website-detail-value" id="websiteUrl">—</div>
+</div>
+</div>
+<div class="website-modal-actions">
+<a class="website-action primary" href="#" id="websiteExternalLink" onclick="openWebsiteExternal(); return false;">Open Hotel Website</a>
+<button class="website-modal-close" onclick="closeWebsiteHub()">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="website-browser-modal" id="websiteBrowserModal">
+<div class="website-browser-modal-header">
+<div class="website-browser-modal-title" id="websiteBrowserTitle">Hotel Website</div>
+<button class="website-browser-modal-close" onclick="closeWebsiteBrowser()">X Close</button>
+</div>
+<iframe id="websiteBrowserFrame" loading="lazy" src=""></iframe>
+</div>
+<div class="reservation-modal" id="reservationModal">
+<div aria-labelledby="reservationModalTitle" aria-modal="true" class="reservation-panel" role="dialog">
+<div class="reservation-modal-header">
+<div class="reservation-modal-kicker">Reservation details</div>
+<div class="reservation-modal-title" id="reservationModalTitle">Reservation</div>
+</div>
+<div class="reservation-modal-body">
+<div class="reservation-detail-grid">
+<div class="reservation-detail full-width">
+<div class="reservation-detail-label">Hotel</div>
+<div class="reservation-detail-value" id="reservationHotel">—</div>
+</div>
+<div class="reservation-detail">
+<div class="reservation-detail-label">Booking provider</div>
+<div class="reservation-detail-value" id="reservationProvider">—</div>
+</div>
+<div class="reservation-detail">
+<div class="reservation-detail-label">Confirmation number</div>
+<div class="reservation-detail-value" id="reservationNumber">—</div>
+</div>
+<div class="reservation-detail">
+<div class="reservation-detail-label">Provider reference</div>
+<div class="reservation-detail-value" id="reservationProviderReference">—</div>
+</div>
+<div class="reservation-detail full-width">
+<div class="reservation-detail-label">Stay dates</div>
+<div class="reservation-detail-value" id="reservationDates">—</div>
+</div>
+<div class="reservation-detail">
+<div class="reservation-detail-label">Check-in</div>
+<div class="reservation-detail-value" id="reservationCheckIn">—</div>
+</div>
+<div class="reservation-detail">
+<div class="reservation-detail-label">Check-out</div>
+<div class="reservation-detail-value" id="reservationCheckOut">—</div>
+</div>
+</div>
+<div class="reservation-modal-actions">
+<a class="reservation-action primary" href="#" id="reservationExternalLink" onclick="openReservationExternal(); return false;">Open Reservation</a>
+<a class="reservation-action" href="#" id="reservationHotelLink" onclick="openHotelExternal(); return false;">Open Hotel Website</a>
+<button class="reservation-modal-close" onclick="closeReservationHub()">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="offline-overlay" id="offlineOverlay">
+<div class="offline-box">
+<h2>You’re offline</h2>
+<p>
+      This content requires an internet connection.<br/>
+      You can continue using other parts of the app while offline.
+    </p>
+<button onclick="closeOffline()">OK</button>
+</div>
+</div>
+<script>
+function openMapModal(url, externalUrl) {
+  verifyConnectivity()
+    .then(function () {
+      const openLink = document.getElementById('mapOpenLink');
+      let directUrl = externalUrl || url;
+
+      directUrl = directUrl
+        .replace(/([?&])output=embed&?/, '$1')
+        .replace(/[?&]$/, '');
+
+      openLink.href = directUrl;
+      document.getElementById('mapFrame').src = url;
+      document.getElementById('mapModal').style.display = 'flex';
+    })
+    .catch(showOffline);
+}
+
+function closeMapModal() {
+  document.getElementById('mapFrame').src = '';
+  const openLink = document.getElementById('mapOpenLink');
+  if (openLink) openLink.href = '#';
+  document.getElementById('mapModal').style.display = 'none';
+}
+
+let currentWebsiteUrl = '';
+
+function openWebsiteHub(hotel, websiteUrl) {
+  currentWebsiteUrl = websiteUrl;
+
+  document.getElementById('websiteModalTitle').textContent = hotel;
+  document.getElementById('websiteHotel').textContent = hotel;
+  document.getElementById('websiteUrl').textContent = websiteUrl;
+  document.getElementById('websiteExternalLink').href = websiteUrl;
+  document.getElementById('websiteModal').style.display = 'flex';
+}
+
+function closeWebsiteHub() {
+  document.getElementById('websiteModal').style.display = 'none';
+}
+
+function openWebsiteExternal() {
+  if (currentWebsiteUrl) {
+    openWebsiteBrowser(currentWebsiteUrl);
+  }
+}
+
+function openWebsiteBrowser(url) {
+  verifyConnectivity()
+    .then(function () {
+      document.getElementById('websiteBrowserTitle').textContent = document.getElementById('websiteModalTitle').textContent || 'Hotel Website';
+      document.getElementById('websiteBrowserFrame').src = 'fj-sp-2026-sep-external.html?url=' + encodeURIComponent(url);
+      document.getElementById('websiteModal').style.display = 'none';
+      document.getElementById('websiteBrowserModal').style.display = 'flex';
+    })
+    .catch(showOffline);
+}
+
+function closeWebsiteBrowser() {
+  document.getElementById('websiteBrowserFrame').src = '';
+  document.getElementById('websiteBrowserModal').style.display = 'none';
+}
+
+
+function openExternalBrowser(title, url, launchMode) {
+  verifyConnectivity()
+    .then(function () {
+      const browserTitle = document.getElementById('websiteBrowserTitle');
+      const frame = document.getElementById('websiteBrowserFrame');
+
+      browserTitle.textContent = title || 'External Link';
+
+      if (launchMode) {
+        const safeTitle = escapeHtml(title || 'Open link');
+        const safeUrl = escapeHtml(url);
+        frame.srcdoc = `
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <style>
+              * { box-sizing: border-box; }
+              body {
+                margin: 0;
+                min-height: 100vh;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+                color: #f9fafb;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 18px;
+              }
+              .launch-card {
+                width: min(520px, 100%);
+                background: linear-gradient(145deg, #0b1020, #111827);
+                border: 1px solid rgba(255,255,255,0.12);
+                border-radius: 22px;
+                box-shadow: 0 18px 45px rgba(0,0,0,0.65);
+                padding: 20px;
+                text-align: center;
+              }
+              h1 {
+                margin: 0 0 10px;
+                font-size: 20px;
+                line-height: 1.25;
+              }
+              p {
+                margin: 0 0 16px;
+                color: #b5bed5;
+                font-size: 14px;
+                line-height: 1.45;
+              }
+              .url {
+                margin: 0 0 16px;
+                padding: 10px 12px;
+                border: 1px solid rgba(255,255,255,0.08);
+                border-radius: 14px;
+                background: rgba(2,6,23,0.55);
+                color: #9ca3af;
+                font-size: 12px;
+                overflow-wrap: anywhere;
+                text-align: left;
+              }
+              a {
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                border-radius: 999px;
+                border: 1px solid rgba(147,197,253,0.45);
+                background: rgba(37,99,235,0.12);
+                color: #93c5fd;
+                padding: 10px 14px;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 600;
+              }
+            
+/* Grand/Ramada contact-row link alignment */
+.phone-row a {
+  color: #0000ee !important;
+  text-decoration: underline !important;
+  font-weight: 400 !important;
+}
+
+.phone-row a:visited {
+  color: #551a8b !important;
+}
+
+
+/* Grand Pacific contact row inline alignment */
+.gp-contact-row {
+  display: block;
+  line-height: 1.45;
+}
+
+</style>
+          </head>
+          <body>
+            <div class="launch-card">
+              <h1>${safeTitle}</h1>
+              <p>This reservation page is opened directly because the booking provider blocks embedded views.</p>
+              <div class="url">${safeUrl}</div>
+              <a href="${safeUrl}" target="_blank" rel="noopener">Open Online Reservation</a>
+            </div>
+          </body>
+          </html>`;
+      } else {
+        frame.removeAttribute('srcdoc');
+        frame.src = 'fj-sp-2026-sep-external.html?url=' + encodeURIComponent(url);
+      }
+
+      document.getElementById('websiteBrowserModal').style.display = 'flex';
+    })
+    .catch(showOffline);
+}
+
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+let currentReservationUrl = '';
+let currentHotelUrl = '';
+
+function openReservationHub(hotel, provider, confirmation, providerReference, dates, checkIn, checkOut, reservationUrl, hotelUrl) {
+  currentReservationUrl = reservationUrl;
+  currentHotelUrl = hotelUrl;
+
+  document.getElementById('reservationModalTitle').textContent = hotel;
+  document.getElementById('reservationHotel').textContent = hotel;
+  document.getElementById('reservationProvider').textContent = provider;
+  document.getElementById('reservationNumber').textContent = confirmation || 'Not recorded';
+  document.getElementById('reservationProviderReference').textContent = providerReference || 'Not recorded';
+  document.getElementById('reservationDates').textContent = dates;
+  document.getElementById('reservationCheckIn').textContent = checkIn;
+  document.getElementById('reservationCheckOut').textContent = checkOut;
+  document.getElementById('reservationExternalLink').href = reservationUrl;
+  document.getElementById('reservationHotelLink').href = hotelUrl;
+  document.getElementById('reservationModal').style.display = 'flex';
+}
+
+function closeReservationHub() {
+  document.getElementById('reservationModal').style.display = 'none';
+}
+
+function openReservationExternal() {
+  if (currentReservationUrl) {
+    openExternalBrowser(
+      'Online Reservation — ' + (document.getElementById('reservationModalTitle').textContent || 'Reservation'),
+      currentReservationUrl,
+      true
+    );
+    closeReservationHub();
+  }
+}
+
+function openHotelExternal() {
+  if (currentHotelUrl) {
+    openExternalBrowser(
+      'Hotel Website — ' + (document.getElementById('reservationModalTitle').textContent || 'Hotel Website'),
+      currentHotelUrl,
+      false
+    );
+    closeReservationHub();
+  }
+}
+
+function isFrameBlockedExternal(url) {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, '').toLowerCase();
+    return (
+      host === 'wyndhamhotels.com' ||
+      host.endsWith('.wyndhamhotels.com') ||
+      host === 'booking.com' ||
+      host.endsWith('.booking.com') ||
+      host === 'secure.booking.com' ||
+      host === 'agoda.com' ||
+      host.endsWith('.agoda.com')
+    );
+  } catch {
+    return true;
+  }
+}
+
+function buildExternalLaunchCard(title, url) {
+  const safeTitle = escapeHtml(title || 'Open external link');
+  const safeUrl = escapeHtml(url || '');
+
+  return `
+    <!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+        * { box-sizing: border-box; }
+        body {
+          margin: 0;
+          min-height: 100vh;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          background:
+            linear-gradient(rgba(235,250,253,.76), rgba(244,252,253,.93) 42%, rgba(244,252,253,.98)),
+            url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top / cover fixed;
+          color: #15365f;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 18px;
+        }
+        .launch-card {
+          width: min(560px, 100%);
+          background: linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,255,255,0.99));
+          border: 1px solid rgba(8,145,178,0.16);
+          border-radius: 22px;
+          box-shadow: 0 20px 40px rgba(15,118,110,.18);
+          padding: 22px;
+          text-align: center;
+        }
+        h1 {
+          margin: 0 0 10px;
+          font-size: 20px;
+          line-height: 1.25;
+          color: #15365f;
+        }
+        p {
+          margin: 0 0 16px;
+          color: #49657f;
+          font-size: 14px;
+          line-height: 1.45;
+        }
+        .url {
+          margin: 0 0 16px;
+          padding: 10px 12px;
+          border: 1px solid rgba(8,145,178,0.12);
+          border-radius: 14px;
+          background: rgba(238,251,255,0.72);
+          color: #49657f;
+          font-size: 12px;
+          overflow-wrap: anywhere;
+          text-align: left;
+        }
+        a {
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          border-radius: 999px;
+          border: 1px solid transparent;
+          background: linear-gradient(135deg,#0ea5b7,#0284c7);
+          color: #ffffff;
+          padding: 11px 14px;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 700;
+        }
+      
+/* Grand/Ramada contact-row link alignment */
+.phone-row a {
+  color: #0000ee !important;
+  text-decoration: underline !important;
+  font-weight: 400 !important;
+}
+
+.phone-row a:visited {
+  color: #551a8b !important;
+}
+
+
+/* Grand Pacific contact row inline alignment */
+.gp-contact-row {
+  display: block;
+  line-height: 1.45;
+}
+
+</style>
+    </head>
+    <body>
+      <div class="launch-card">
+        <h1>${safeTitle}</h1>
+        <p>This website blocks embedded app views. Open it directly in your browser, then use the X Close button above to return to the trip app.</p>
+        <div class="url">${safeUrl}</div>
+        <a href="${safeUrl}" target="_blank" rel="noopener">Open in Browser</a>
+      </div>
+    </body>
+    </html>`;
+}
+
+function handleExternal(url, title) {
+  const activeText = (document.activeElement && document.activeElement.textContent)
+    ? document.activeElement.textContent.trim()
+    : '';
+
+  const browserTitle = title || activeText || 'External Link';
+
+  verifyConnectivity()
+    .then(function () {
+      const modalTitle = document.getElementById('websiteBrowserTitle');
+      const frame = document.getElementById('websiteBrowserFrame');
+
+      modalTitle.textContent = browserTitle;
+
+      if (isFrameBlockedExternal(url)) {
+        frame.removeAttribute('src');
+        frame.srcdoc = buildExternalLaunchCard(browserTitle, url);
+      } else {
+        frame.removeAttribute('srcdoc');
+        frame.src = 'fj-sp-2026-sep-external.html?url=' + encodeURIComponent(url);
+      }
+
+      document.getElementById('websiteBrowserModal').style.display = 'flex';
+    })
+    .catch(showOffline);
+}
+
+function verifyConnectivity() {
+  return new Promise(function (resolve, reject) {
+    const controller = new AbortController();
+    const timeout = setTimeout(function () {
+      controller.abort();
+      reject();
+    }, 800);
+
+    fetch('fj-sp-2026-sep-external.html', {
+      cache: 'no-store',
+      signal: controller.signal
+    })
+      .then(function () {
+        clearTimeout(timeout);
+        resolve();
+      })
+      .catch(function () {
+        clearTimeout(timeout);
+        reject();
+      });
+  });
+}
+
+function showOffline() {
+  document.getElementById('offlineOverlay').style.display = 'flex';
+}
+
+function closeOffline() {
+  document.getElementById('offlineOverlay').style.display = 'none';
+}
+</script>
+</body>
+</html>

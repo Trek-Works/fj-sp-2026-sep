@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Activities – FJ-SP-2026-Sep</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link rel="canonical" href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-activities.html"/>
+<style>
+:root {
+  --bg-main: #eefbff;
+  --bg-card: rgba(255,255,255,0.94);
+  --bg-card-soft: rgba(255,255,255,0.98);
+  --border-soft: rgba(8,145,178,0.16);
+  --text-main: #15365f;
+  --text-muted: #49657f;
+  --accent-blue: #0891b2;
+  --accent-teal: #0ea5a7;
+  --accent-soft: rgba(8,145,178,0.12);
+  --text-soft: #49657f;
+  --shadow-soft: 0 10px 28px rgba(15,118,110,0.12);
+  --radius-xl: 18px;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    linear-gradient(rgba(235,250,253,.76), rgba(244,252,253,.93) 42%, rgba(244,252,253,.98)),
+    url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top / cover fixed;
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  justify-content: center;
+}
+
+.page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 18px 80px;
+}
+
+.page-header { text-align: center; }
+.page-header .toolbar { justify-content: center; }
+
+.breadcrumb {
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  font-size: 12px;
+  color: #0f6f88;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: clamp(28px,3.6vw,42px);
+  font-weight: 800;
+  color: #15365f;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6);
+  margin: 0;
+}
+
+.subtitle {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #244c72;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 26px;
+  align-items: center;
+  justify-content: center;
+}
+
+.pill-button,
+.link-pill,
+.pending-pill,
+.map-modal-close,
+.map-open-link,
+.website-browser-modal-close,
+.offline-box button {
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(8,145,178,.22);
+  background: rgba(255,255,255,.82);
+  color: #15365f;
+  box-shadow: 0 8px 20px rgba(8,145,178,.10);
+  backdrop-filter: blur(8px);
+  text-decoration: none;
+}
+
+.pill-button {
+  padding: 8px 15px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0891b2;
+}
+
+.section {
+  margin-top: 20px;
+}
+
+.section-group,
+.subgroup {
+  margin-top: 14px;
+}
+
+.section-group > summary,
+.subgroup > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #15365f;
+  border: 1px solid rgba(8,145,178,.12);
+  background: rgba(255,255,255,.64);
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 6px 18px rgba(8,145,178,.06);
+}
+
+.section-group > summary::-webkit-details-marker,
+.subgroup > summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.summary-title {
+  font-size: 17px;
+  font-weight: 750;
+  color: #15365f;
+}
+
+.summary-subtitle {
+  font-size: 12px;
+  color: #49657f;
+  margin-top: 2px;
+}
+
+.summary-arrow {
+  flex: 0 0 auto;
+  font-size: 13px;
+  color: #49657f;
+  transition: transform .2s ease;
+}
+
+.section-group[open] > summary .summary-arrow,
+.subgroup[open] > summary .summary-arrow {
+  transform: rotate(90deg);
+}
+
+.section-body {
+  margin-top: 12px;
+}
+
+.card {
+  width: 100%;
+  background: linear-gradient(180deg,var(--bg-card),var(--bg-card-soft));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
+  padding: 18px 19px;
+}
+
+.card + .card,
+.card + .subgroup,
+.subgroup + .subgroup {
+  margin-top: 12px;
+}
+
+.card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.card-title {
+  color: #15365f;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.card-kicker {
+  font-size: 12px;
+  color: #0891b2;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.subtext {
+  font-size: 13px;
+  color: #49657f;
+  margin-top: 5px;
+  line-height: 1.45;
+}
+
+.card-footer {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.link-pill,
+.pending-pill {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.link-pill {
+  color: #0891b2;
+  cursor: pointer;
+}
+
+.pending-pill {
+  color: #7a8ea5;
+  background: rgba(238,251,255,.72);
+  border-style: dashed;
+  cursor: default;
+}
+
+.link-pill:hover,
+.pill-button:hover,
+.map-modal-close:hover,
+.map-open-link:hover,
+.website-browser-modal-close:hover {
+  background: rgba(255,255,255,.96);
+  border-color: rgba(8,145,178,.38);
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.meta-item {
+  border: 1px solid rgba(8,145,178,.12);
+  background: rgba(238,251,255,.72);
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+
+.meta-label {
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #0891b2;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.meta-value {
+  font-size: 13px;
+  color: #49657f;
+  line-height: 1.35;
+}
+
+.list-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.list-card-title .title-main {
+  font-size: 17px;
+  font-weight: 750;
+  color: #15365f;
+}
+
+.list-card-title .title-note {
+  font-size: 12px;
+  color: #0891b2;
+  font-weight: 800;
+}
+
+.grid-header,
+.grid-row {
+  display: grid;
+  grid-template-columns: minmax(220px,1.55fr) minmax(165px,1.1fr) minmax(165px,1fr) auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.trip-header,
+.trip-row {
+  display: grid;
+  grid-template-columns: minmax(240px,1.6fr) minmax(190px,1.1fr) minmax(130px,.7fr) auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.grid-header,
+.trip-header {
+  padding: 0 0 8px;
+  border-bottom: 1px solid rgba(8,145,178,.14);
+}
+
+.header-cell {
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #0891b2;
+  font-weight: 800;
+}
+
+.grid-list,
+.trip-list {
+  margin-top: 4px;
+}
+
+.grid-row,
+.trip-row {
+  padding: 13px 0;
+  border-top: 1px solid rgba(8,145,178,.12);
+}
+
+.grid-row:first-child,
+.trip-row:first-child {
+  border-top: 0;
+}
+
+.item-name {
+  font-size: 14px;
+  font-weight: 750;
+  color: #15365f;
+}
+
+.item-note {
+  font-size: 12px;
+  color: #49657f;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.item-value {
+  font-size: 13px;
+  color: #49657f;
+  line-height: 1.35;
+}
+
+.item-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.item-actions .link-pill,
+.item-actions .pending-pill {
+  padding: 5px 10px;
+  font-size: 11px;
+}
+
+.note-strip {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(8,145,178,.12);
+  background: rgba(238,251,255,.72);
+  border-radius: 14px;
+  font-size: 12px;
+  color: #49657f;
+  line-height: 1.45;
+}
+
+.footer-nav {
+  margin-top: 32px;
+  padding-top: 0;
+  border-top: none;
+  font-size: 12px;
+  color: #49657f;
+  text-align: center;
+}
+
+.footer-line { max-width: 980px; margin: 0 auto; line-height: 1.45; color:#49657f; }
+.footer-line a { color:#0891b2; font-weight:700; text-decoration:none; white-space:nowrap; }
+.footer-line a:hover { text-decoration: underline; }
+.desktop-only { display: inline; }
+.mobile-only { display: none; }
+
+.map-modal,
+.website-browser-modal,
+.offline-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(21,54,95,0.34);
+  backdrop-filter: blur(10px);
+  display: none;
+  z-index: 9998;
+}
+
+.map-modal,
+.website-browser-modal { flex-direction: column; }
+.offline-overlay { align-items:center; justify-content:center; z-index:9999; }
+
+.map-modal-header,
+.website-browser-modal-header {
+  height: 52px;
+  min-height: 52px;
+  background: rgba(255,255,255,0.96);
+  border-bottom: 1px solid rgba(8,145,178,0.16);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  color: #15365f;
+  font-size: 14px;
+}
+
+.map-modal-title,
+.website-browser-modal-title {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 12px;
+  flex: 1 1 auto;
+}
+
+.map-modal-actions { display:flex; align-items:center; gap:8px; flex:0 0 auto; }
+.map-modal-close,
+.map-open-link,
+.website-browser-modal-close {
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  color:#15365f;
+}
+
+.map-modal iframe,
+.website-browser-modal iframe {
+  width: 100%;
+  height: calc(100vh - 52px);
+  border: 0;
+  background: #eefbff;
+}
+
+.offline-box {
+  max-width: 420px;
+  margin: 20px;
+  padding: 20px 22px;
+  background: linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.99));
+  border: 1px solid rgba(8,145,178,0.16);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(15,118,110,.18);
+  text-align: center;
+}
+
+.offline-box h2 { margin:0 0 10px; font-size:20px; color:#15365f; }
+.offline-box p { margin:0 0 16px; font-size:14px; color:#49657f; line-height:1.4; }
+.offline-box button { padding:8px 16px; font-size:14px; color:#0891b2; cursor:pointer; }
+
+@media (max-width: 920px) {
+  .grid-header,
+  .grid-row { grid-template-columns: 1.4fr 1fr 1fr; }
+  .trip-header,
+  .trip-row { grid-template-columns: 1.45fr 1fr .8fr; }
+  .item-actions { justify-content: flex-start; grid-column: 1 / -1; }
+}
+
+@media (max-width: 640px) {
+  .subtitle { display:flex; flex-direction:column; align-items:center; gap:2px; text-align:center; }
+  .section-group > summary,
+  .subgroup > summary { padding: 12px 14px; }
+  .summary-title { font-size: 16px; }
+  .card-title-row,
+  .list-card-title { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .meta-grid { grid-template-columns: 1fr; }
+  .grid-header,
+  .trip-header { display: none; }
+  .grid-row,
+  .trip-row { grid-template-columns: 1fr; gap: 8px; padding: 14px 0; }
+  .item-actions { justify-content:flex-start; }
+  .card-footer { gap:6px; }
+  .card-footer .link-pill,
+  .card-footer .pending-pill,
+  .item-actions .link-pill,
+  .item-actions .pending-pill { flex:1 1 calc(50% - 6px); justify-content:center; text-align:center; }
+  .footer-line { line-height:1.8; }
+  .desktop-only { display:none; }
+  .mobile-only { display:inline; }
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="page-header">
+    <div class="breadcrumb">FJ-SP-2026-Sep · Fiji Trip</div>
+    <h1 class="title">Activities</h1>
+    <p class="subtitle">
+      <span>Day trips, dining, bars &amp; nightclubs quick reference</span>
+      <span>(30 Aug 2026 → 4 Sep 2026)</span>
+    </p>
+    <div class="toolbar">
+      <a class="pill-button" href="https://fj-sp-2026-sep.trekworks.org/">← Back to Trip Home</a>
+    </div>
+  </div>
+
+  <section class="section">
+    <details class="section-group">
+      <summary>
+        <div class="summary-left">
+          <div>⛵</div>
+          <div>
+            <div class="summary-title">Day Trips</div>
+            <div class="summary-subtitle">Compact options for Nadi / Port Denarau and Pacific Harbour</div>
+          </div>
+        </div>
+        <div class="summary-arrow">▶</div>
+      </summary>
+      <div class="section-body">
+        <article class="card">
+          <div class="trip-header">
+            <div class="header-cell">Experience</div>
+            <div class="header-cell">Base</div>
+            <div class="header-cell">Duration</div>
+            <div class="header-cell" style="text-align:right;">Links</div>
+          </div>
+          <div class="trip-list">
+            <div class="trip-row">
+              <div>
+                <div class="item-name">Ride &amp; Slide</div>
+                <div class="item-note">Half-day Mamanuca reef trip with guided snorkelling, swim stops and the inflatable slide aboard South Sea Cats.</div>
+              </div>
+              <div class="item-value">Port Denarau · best from Nadi</div>
+              <div class="item-value">Approx. 4.5 hrs</div>
+              <div class="item-actions">
+                <a class="link-pill" href="#" onclick="openExternal('https://www.vitikart.com.fj/tour/1236-ride-slide','Ride and Slide — Booking / Details'); return false;">Book / Details</a>
+                <span class="pending-pill" title="Replace with confirmation link once booked">Reservation</span>
+              </div>
+            </div>
+            <div class="trip-row">
+              <div>
+                <div class="item-name">Malamala Beach Club · Full Day Pass</div>
+                <div class="item-note">Private-island beach club day with beach access, infinity pool, snorkelling, kayaking and paddleboarding.</div>
+              </div>
+              <div class="item-value">Port Denarau · best from Nadi</div>
+              <div class="item-value">Approx. 7 hrs</div>
+              <div class="item-actions">
+                <a class="link-pill" href="#" onclick="openExternal('https://www.vitikart.com.fj/tour/1236-malamala-beach-club-full-day-pass','Malamala Beach Club — Booking / Details'); return false;">Book / Details</a>
+                <span class="pending-pill" title="Replace with confirmation link once booked">Reservation</span>
+              </div>
+            </div>
+            <div class="trip-row">
+              <div>
+                <div class="item-name">Sabre Full Day Cruise</div>
+                <div class="item-note">Full-day Mamanuca sailing cruise with snorkelling and swimming stops, paddleboarding and lunch.</div>
+              </div>
+              <div class="item-value">Port Denarau · best from Nadi</div>
+              <div class="item-value">Approx. 7 hrs</div>
+              <div class="item-actions">
+                <a class="link-pill" href="#" onclick="openExternal('https://www.vitikart.com.fj/tour/1236-sabre-full-day-cruise-by-south-sea-sailing','Sabre Full Day Cruise — Booking / Details'); return false;">Book / Details</a>
+                <span class="pending-pill" title="Replace with confirmation link once booked">Reservation</span>
+              </div>
+            </div>
+            <div class="trip-row">
+              <div>
+                <div class="item-name">The Lailai Lounge</div>
+                <div class="item-note">All-inclusive Beqa Lagoon day from The Pearl Resort with floating lounge, guided snorkelling, kayaks, SUPs, lunch and soft drinks.</div>
+              </div>
+              <div class="item-value">Pacific Harbour · The Pearl Resort</div>
+              <div class="item-value">Approx. 7 hrs</div>
+              <div class="item-actions">
+                <a class="link-pill" href="#" onclick="openExternal('https://www.vitikart.com.fj/tour/1214-the-lailai-lounge','The Lailai Lounge — Booking / Details'); return false;">Book / Details</a>
+                <span class="pending-pill" title="Replace with confirmation link once booked">Reservation</span>
+              </div>
+            </div>
+            <div class="trip-row">
+              <div>
+                <div class="item-name">Sunset Cruise</div>
+                <div class="item-note">Short evening cruise from Pacific Harbour for sunset views along the coast with Beqa and nearby islands on the horizon.</div>
+              </div>
+              <div class="item-value">Pacific Harbour · The Pearl Resort</div>
+              <div class="item-value">Approx. 1.5 hrs</div>
+              <div class="item-actions">
+                <a class="link-pill" href="#" onclick="openExternal('https://www.vitikart.com.fj/tour/1214-sunset-cruise','Sunset Cruise — Booking / Details'); return false;">Book / Details</a>
+                <span class="pending-pill" title="Replace with confirmation link once booked">Reservation</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </details>
+
+    <details class="section-group">
+      <summary>
+        <div class="summary-left">
+          <div>🌙</div>
+          <div>
+            <div class="summary-title">Bars &amp; Nightclubs</div>
+            <div class="summary-subtitle">Separate quick-reference sections for Nadi and Suva</div>
+          </div>
+        </div>
+        <div class="summary-arrow">▶</div>
+      </summary>
+      <div class="section-body">
+        <details class="subgroup">
+          <summary>
+            <div class="summary-left">
+              <div>📍</div>
+              <div>
+                <div class="summary-title">Nadi</div>
+                <div class="summary-subtitle">Nadi options</div>
+              </div>
+            </div>
+            <div class="summary-arrow">▶</div>
+          </summary>
+          <div class="section-body">
+            <article class="card">
+              <div class="grid-header">
+                <div class="header-cell">Venue</div>
+                <div class="header-cell">Type</div>
+                <div class="header-cell">Proximity</div>
+                <div class="header-cell" style="text-align:right;">Links</div>
+              </div>
+              <div class="grid-list">
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Ed's Bar</div>
+                    <div class="item-note">Popular Nadi nightlife venue with outdoor courtyard, live music and local DJs.</div>
+                  </div>
+                  <div class="item-value">Bar · nightlife</div>
+                  <div class="item-value">Nadi Town · short drive</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Eds+Bar+Nadi+Fiji','Eds Bar Nadi — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Eds%20Bar%203%20Haji%20Street%20Nadi%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Eds+Bar+3+Haji+Street+Nadi+Fiji&amp;travelmode=driving','Eds Bar'); return false;">Directions</a>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Wildfire Fiji</div>
+                    <div class="item-note">The current venue at the former Ice Bar site in Jetpoint, now operating as a bar, grillhouse and nightlife venue.</div>
+                  </div>
+                  <div class="item-value">Bar · dance club · nightclub</div>
+                  <div class="item-value">RB Jetpoint · short drive</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Wildfire+Fiji+Nadi','Wildfire Fiji — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Wildfire%20Fiji%20Bar%20and%20Grill%20RB%20Jetpoint%20Nadi%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Wildfire+Fiji+Bar+and+Grill+RB+Jetpoint+Nadi+Fiji&amp;travelmode=driving','Wildfire Fiji'); return false;">Directions</a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </details>
+
+        <details class="subgroup">
+          <summary>
+            <div class="summary-left">
+              <div>📍</div>
+              <div>
+                <div class="summary-title">Suva</div>
+                <div class="summary-subtitle">Suva options</div>
+              </div>
+            </div>
+            <div class="summary-arrow">▶</div>
+          </summary>
+          <div class="section-body">
+            <article class="card">
+              <div class="grid-header">
+                <div class="header-cell">Venue</div>
+                <div class="header-cell">Type</div>
+                <div class="header-cell">Proximity</div>
+                <div class="header-cell" style="text-align:right;">Links</div>
+              </div>
+              <div class="grid-list">
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">O'Reilly's Bar</div>
+                    <div class="item-note">Long-standing Suva late-night venue on MacArthur Street; lively atmosphere and a common nightlife stop.</div>
+                  </div>
+                  <div class="item-value">Bar · nightclub</div>
+                  <div class="item-value">MacArthur Street · short taxi / walk</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=OReillys+Bar+Suva+Fiji','OReillys Bar Suva — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=O%27Reilly%27s%20Bar%203%20MacArthur%20Street%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=O%27Reilly%27s+Bar+3+MacArthur+Street+Suva+Fiji&amp;travelmode=walking','OReillys Bar'); return false;">Directions</a>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Shenanigans Nightclub</div>
+                    <div class="item-note">Sister establishment to O'Reilly's, also at 3 MacArthur Street, suited to later-night clubbing.</div>
+                  </div>
+                  <div class="item-value">Nightclub</div>
+                  <div class="item-value">MacArthur Street · short taxi / walk</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Shenanigans+Nightclub+Suva+Fiji','Shenanigans Nightclub — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Shenanigans%20Nightclub%203%20MacArthur%20Street%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Shenanigans+Nightclub+3+MacArthur+Street+Suva+Fiji&amp;travelmode=walking','Shenanigans Nightclub'); return false;">Directions</a>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Traps Bar &amp; Nightclub</div>
+                    <div class="item-note">Multi-bar Suva venue at 305 Victoria Parade with live music, dancing and a more established nightlife profile.</div>
+                  </div>
+                  <div class="item-value">Nightclub · live music</div>
+                  <div class="item-value">Victoria Parade · short taxi / walk</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Traps+Bar+Suva+Fiji','Traps Bar Suva — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Traps%20Bar%20305%20Victoria%20Parade%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Traps+Bar+305+Victoria+Parade+Suva+Fiji&amp;travelmode=walking','Traps Bar'); return false;">Directions</a>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Down Under Pub</div>
+                    <div class="item-note">Casual Suva venue with pool tables, dancing and an easy pub-style atmosphere.</div>
+                  </div>
+                  <div class="item-value">Pub · nightlife</div>
+                  <div class="item-value">54 Carnarvon Street · short drive</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Down+Under+Pub+Suva+Fiji','Down Under Pub Suva — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Down%20Under%20Pub%2054%20Carnarvon%20Street%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Down+Under+Pub+54+Carnarvon+Street+Suva+Fiji&amp;travelmode=driving','Down Under Pub'); return false;">Directions</a>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Opium Bar</div>
+                    <div class="item-note">MacArthur Street drinks venue noted for happy-hour style bar visits and a central location.</div>
+                  </div>
+                  <div class="item-value">Bar</div>
+                  <div class="item-value">MacArthur Street · short taxi / walk</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Opium+Bar+Suva+Fiji','Opium Bar Suva — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Opium%20Bar%20MacArthur%20Street%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Opium+Bar+MacArthur+Street+Suva+Fiji&amp;travelmode=walking','Opium Bar'); return false;">Directions</a>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Steamship Bar</div>
+                    <div class="item-note">Bar option located at Grand Pacific Hotel.</div>
+                  </div>
+                  <div class="item-value">Grand Pacific Hotel bar</div>
+                  <div class="item-value">Located at Grand Pacific Hotel</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Steamship+Bar+Grand+Pacific+Hotel+Suva','Steamship Bar — Details'); return false;">Details</a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </details>
+      </div>
+    </details>
+
+    <details class="section-group">
+      <summary>
+        <div class="summary-left">
+          <div>🍽️</div>
+          <div>
+            <div class="summary-title">Restaurants &amp; Cafés</div>
+            <div class="summary-subtitle">Separate quick-reference sections for Nadi and Suva</div>
+          </div>
+        </div>
+        <div class="summary-arrow">▶</div>
+      </summary>
+      <div class="section-body">
+        <details class="subgroup">
+          <summary>
+            <div class="summary-left">
+              <div>📍</div>
+              <div>
+                <div class="summary-title">Nadi</div>
+                <div class="summary-subtitle">Nadi options</div>
+              </div>
+            </div>
+            <div class="summary-arrow">▶</div>
+          </summary>
+          <div class="section-body">
+            <article class="card">
+              <div class="grid-header">
+                <div class="header-cell">Venue</div>
+                <div class="header-cell">Cuisine</div>
+                <div class="header-cell">Proximity</div>
+                <div class="header-cell" style="text-align:right;">Links</div>
+              </div>
+              <div class="grid-list">
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Vasaqa Fiji Wailoaloa</div>
+                    <div class="item-note">Popular nearby choice for Fijian flavours, smoked meats and a stronger dinner setting.</div>
+                  </div>
+                  <div class="item-value">Fijian fusion · seafood · BBQ</div>
+                  <div class="item-value">Wailoaloa strip · short walk</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.vasaqa.com/','Vasaqa Fiji — Reserve / Details'); return false;">Reserve / Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Vasaqa%20Fiji%20Wailoaloa%20Nadi%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Vasaqa+Fiji+Wailoaloa+Nadi+Fiji&amp;travelmode=walking','Vasaqa Fiji Wailoaloa'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">The Beach Club Wailoaloa</div>
+                    <div class="item-note">Easy nearby option for a casual lunch, dinner or drink on Wasawasa Road.</div>
+                  </div>
+                  <div class="item-value">Bar &amp; grill · pizza</div>
+                  <div class="item-value">Wasawasa Road · short walk</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=The+Beach+Club+Wailoaloa+Nadi','The Beach Club Wailoaloa — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=The%20Beach%20Club%20Wailoaloa%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=The+Beach+Club+Wailoaloa+Fiji&amp;travelmode=walking','The Beach Club Wailoaloa'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Urban Sugar Beach Club Fiji</div>
+                    <div class="item-note">Beachfront dining and drinks, close enough for an easy hotel-area outing.</div>
+                  </div>
+                  <div class="item-value">Fusion · bar dining</div>
+                  <div class="item-value">Approx. 3 min walk</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Urban+Sugar+Beach+Club+Fiji+Nadi','Urban Sugar Beach Club — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Urban%20Sugar%20Beach%20Club%20Fiji%20Nadi&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Urban+Sugar+Beach+Club+Fiji+Nadi&amp;travelmode=walking','Urban Sugar Beach Club Fiji'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">La Bottega Fiji</div>
+                    <div class="item-note">Dinner-focused Italian option in the Wailoaloa / resort precinct.</div>
+                  </div>
+                  <div class="item-value">Italian · contemporary</div>
+                  <div class="item-value">Approx. 4–5 min walk</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=La+Bottega+Fiji+Nadi','La Bottega Fiji — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=La%20Bottega%20Fiji%20Wailoaloa%20Nadi&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=La+Bottega+Fiji+Wailoaloa+Nadi&amp;travelmode=walking','La Bottega Fiji'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Bulaccino Café</div>
+                    <div class="item-note">Good café option for breakfast, coffee or a lighter meal.</div>
+                  </div>
+                  <div class="item-value">Café · breakfast · coffee</div>
+                  <div class="item-value">Short drive</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Bulaccino+Cafe+Nadi+Fiji','Bulaccino Cafe — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Bulaccino%20Cafe%20Nadi%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Bulaccino+Cafe+Nadi+Fiji&amp;travelmode=driving','Bulaccino Cafe'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Sailor's Beach</div>
+                    <div class="item-note">Wailoaloa beachfront café / restaurant suitable for a relaxed meal or drink by the water.</div>
+                  </div>
+                  <div class="item-value">Beachfront café · casual dining</div>
+                  <div class="item-value">Short drive / longer walk</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Sailors+Beach+Nadi+Fiji','Sailors Beach Nadi — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Sailor%27s%20Beach%20Nadi%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Sailor%27s+Beach+Nadi+Fiji&amp;travelmode=driving','Sailors Beach'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </details>
+
+        <details class="subgroup">
+          <summary>
+            <div class="summary-left">
+              <div>📍</div>
+              <div>
+                <div class="summary-title">Suva</div>
+                <div class="summary-subtitle">Suva options</div>
+              </div>
+            </div>
+            <div class="summary-arrow">▶</div>
+          </summary>
+          <div class="section-body">
+            <article class="card">
+              <div class="grid-header">
+                <div class="header-cell">Venue</div>
+                <div class="header-cell">Cuisine</div>
+                <div class="header-cell">Proximity</div>
+                <div class="header-cell" style="text-align:right;">Links</div>
+              </div>
+              <div class="grid-list">
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Prince Albert Restaurant &amp; Terrace</div>
+                    <div class="item-note">Refined dining option located at Grand Pacific Hotel.</div>
+                  </div>
+                  <div class="item-value">Fine dining · international</div>
+                  <div class="item-value">Located at Grand Pacific Hotel</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Prince+Albert+Restaurant+Grand+Pacific+Hotel+Suva','Prince Albert Restaurant — Details'); return false;">Details</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Levuka Restaurant</div>
+                    <div class="item-note">Casual dining option located at Grand Pacific Hotel.</div>
+                  </div>
+                  <div class="item-value">Hotel dining · casual</div>
+                  <div class="item-value">Located at Grand Pacific Hotel</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Levuka+Restaurant+Grand+Pacific+Hotel+Suva','Levuka Restaurant — Details'); return false;">Details</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Daikoku Suva</div>
+                    <div class="item-note">Very handy Japanese / teppanyaki option on Victoria Parade.</div>
+                  </div>
+                  <div class="item-value">Japanese · teppanyaki</div>
+                  <div class="item-value">Short walk</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Daikoku+Suva+Fiji','Daikoku Suva — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Daikoku%20Victoria%20Parade%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Daikoku+Victoria+Parade+Suva+Fiji&amp;travelmode=walking','Daikoku Suva'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Paradiso Ristorante</div>
+                    <div class="item-note">Close, reliable Italian option for a sit-down meal near the waterfront area.</div>
+                  </div>
+                  <div class="item-value">Italian</div>
+                  <div class="item-value">Short walk / quick drive</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Paradiso+Ristorante+Suva+Fiji','Paradiso Ristorante — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Paradiso%20Ristorante%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Paradiso+Ristorante+Suva+Fiji&amp;travelmode=walking','Paradiso Ristorante'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Eden Bistro &amp; Bar</div>
+                    <div class="item-note">Well-known Suva venue suited to lunch, dinner or drinks.</div>
+                  </div>
+                  <div class="item-value">Bistro · bar dining</div>
+                  <div class="item-value">Short drive</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Eden+Bistro+and+Bar+Suva+Fiji','Eden Bistro and Bar — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Eden%20Bistro%20and%20Bar%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Eden+Bistro+and+Bar+Suva+Fiji&amp;travelmode=driving','Eden Bistro and Bar'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Tiko's Floating Restaurant</div>
+                    <div class="item-note">Suva waterfront seafood option worth the short drive.</div>
+                  </div>
+                  <div class="item-value">Seafood · Pacific Rim</div>
+                  <div class="item-value">Approx. 0.8 km · quick drive</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Tikos+Floating+Restaurant+Suva+Fiji','Tikos Floating Restaurant — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Tiko%27s%20Floating%20Restaurant%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Tiko%27s+Floating+Restaurant+Suva+Fiji&amp;travelmode=driving','Tikos Floating Restaurant'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Mana Coffee</div>
+                    <div class="item-note">Simple café option for coffee or a lighter stop in central Suva.</div>
+                  </div>
+                  <div class="item-value">Café · coffee</div>
+                  <div class="item-value">Short walk / quick drive</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Mana+Coffee+Suva+Fiji','Mana Coffee — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Mana%20Coffee%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Mana+Coffee+Suva+Fiji&amp;travelmode=walking','Mana Coffee'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+                <div class="grid-row">
+                  <div>
+                    <div class="item-name">Ginger Kitchen</div>
+                    <div class="item-note">Convenient café stop in the Fiji Museum / Thurston Gardens precinct.</div>
+                  </div>
+                  <div class="item-value">Café · light meals</div>
+                  <div class="item-value">Fiji Museum precinct · short walk</div>
+                  <div class="item-actions">
+                    <a class="link-pill" href="#" onclick="openExternal('https://www.google.com/search?q=Ginger+Kitchen+Suva+Fiji','Ginger Kitchen — Details'); return false;">Details</a>
+                    <a class="link-pill" href="#" onclick="openMapModal('https://www.google.com/maps?q=Ginger%20Kitchen%20Suva%20Fiji&amp;output=embed','https://www.google.com/maps/dir/?api=1&amp;destination=Ginger+Kitchen+Suva+Fiji&amp;travelmode=walking','Ginger Kitchen'); return false;">Directions</a>
+                    <span class="pending-pill" title="Replace with confirmation link once reserved">Reservation</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </details>
+      </div>
+    </details>
+  </section>
+
+  <div class="toolbar" style="justify-content:center; margin: 28px 0 0;">
+    <a class="pill-button" href="https://fj-sp-2026-sep.trekworks.org/">← Back to Trip Home</a>
+  </div>
+
+  <footer class="footer-nav">
+    <div class="footer-line desktop-only">
+      For accommodation, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-accommodation.html">Accommodation</a>.
+      For flights, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-flights.html">Flights</a>.
+      For hire car and transport, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-hire-car.html">Hire Car</a>.
+      For trip tasks, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-task-list.html">Task List</a>.
+    </div>
+    <div class="footer-line mobile-only">
+      See <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-accommodation.html">Accommodation</a>,
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-flights.html">Flights</a>,
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-hire-car.html">Hire Car</a>
+      and <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-task-list.html">Task List</a>.
+    </div>
+  </footer>
+</main>
+
+<div class="map-modal" id="mapModal">
+  <div class="map-modal-header">
+    <div class="map-modal-title" id="mapModalTitle">Map</div>
+    <div class="map-modal-actions">
+      <a class="map-open-link" href="#" id="mapOpenLink" rel="noopener" target="_blank">Open in Maps ↗</a>
+      <button class="map-modal-close" type="button" onclick="closeMapModal()">X Close</button>
+    </div>
+  </div>
+  <iframe id="mapFrame" loading="lazy" src=""></iframe>
+</div>
+
+<div class="website-browser-modal" id="websiteBrowserModal" role="dialog" aria-modal="true" aria-label="External link">
+  <div class="website-browser-modal-header">
+    <div class="website-browser-modal-title" id="websiteBrowserTitle">External Link</div>
+    <button class="website-browser-modal-close" type="button" onclick="closeWebsiteBrowser()">X Close</button>
+  </div>
+  <iframe id="websiteBrowserFrame" loading="lazy" src="" title="External content"></iframe>
+</div>
+
+<div class="offline-overlay" id="offlineOverlay">
+  <div class="offline-box">
+    <h2>You’re offline</h2>
+    <p>This content requires an internet connection.<br/>You can continue using the trip reference information while offline.</p>
+    <button type="button" onclick="closeOffline()">OK</button>
+  </div>
+</div>
+
+<script>
+function openMapModal(url, externalUrl, title) {
+  verifyConnectivity()
+    .then(function () {
+      document.getElementById('mapModalTitle').textContent = title || 'Map';
+      document.getElementById('mapOpenLink').href = externalUrl || url;
+      document.getElementById('mapFrame').src = url;
+      document.getElementById('mapModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    })
+    .catch(showOffline);
+}
+
+function closeMapModal() {
+  document.getElementById('mapFrame').src = '';
+  document.getElementById('mapOpenLink').href = '#';
+  document.getElementById('mapModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function buildExternalLaunchCard(title, url) {
+  const safeTitle = escapeHtml(title || 'Open external link');
+  const safeUrl = escapeHtml(url || '');
+
+  return `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(rgba(235,250,253,.76),rgba(244,252,253,.93) 42%,rgba(244,252,253,.98)),url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top/cover fixed;color:#15365f;display:flex;align-items:center;justify-content:center;padding:18px}.launch-card{width:min(560px,100%);background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.99));border:1px solid rgba(8,145,178,.16);border-radius:22px;box-shadow:0 20px 40px rgba(15,118,110,.18);padding:22px;text-align:center}h1{margin:0 0 10px;font-size:20px;line-height:1.25;color:#15365f}p{margin:0 0 16px;color:#49657f;font-size:14px;line-height:1.45}.url{margin:0 0 16px;padding:10px 12px;border:1px solid rgba(8,145,178,.12);border-radius:14px;background:rgba(238,251,255,.72);color:#49657f;font-size:12px;overflow-wrap:anywhere;text-align:left}a{display:inline-flex;justify-content:center;align-items:center;width:100%;border-radius:999px;border:1px solid transparent;background:linear-gradient(135deg,#0ea5b7,#0284c7);color:#fff;padding:11px 14px;text-decoration:none;font-size:14px;font-weight:700}
+</style></head><body><div class="launch-card"><h1>${safeTitle}</h1><p>Open this page directly in your browser for booking, reservations or current venue information, then return to the trip app when finished.</p><div class="url">${safeUrl}</div><a href="${safeUrl}" target="_blank" rel="noopener">Open in Browser</a></div></body></html>`;
+}
+
+function openExternal(url, title) {
+  verifyConnectivity()
+    .then(function () {
+      const frame = document.getElementById('websiteBrowserFrame');
+      document.getElementById('websiteBrowserTitle').textContent = title || 'External Link';
+      frame.removeAttribute('src');
+      frame.srcdoc = buildExternalLaunchCard(title, url);
+      document.getElementById('websiteBrowserModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    })
+    .catch(showOffline);
+}
+
+function closeWebsiteBrowser() {
+  const frame = document.getElementById('websiteBrowserFrame');
+  frame.removeAttribute('src');
+  frame.removeAttribute('srcdoc');
+  document.getElementById('websiteBrowserModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function verifyConnectivity() {
+  return new Promise(function (resolve, reject) {
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+      reject();
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(function () {
+      controller.abort();
+      reject();
+    }, 800);
+
+    fetch('fj-sp-2026-sep-external.html', {
+      cache: 'no-store',
+      signal: controller.signal
+    })
+      .then(function (response) {
+        clearTimeout(timeout);
+        if (response && response.ok === false) {
+          reject();
+          return;
+        }
+        resolve();
+      })
+      .catch(function () {
+        clearTimeout(timeout);
+        reject();
+      });
+  });
+}
+
+function showOffline() {
+  document.getElementById('offlineOverlay').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOffline() {
+  document.getElementById('offlineOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') {
+    closeMapModal();
+    closeWebsiteBrowser();
+    closeOffline();
+  }
+});
+
+document.getElementById('mapModal').addEventListener('click', function (event) {
+  if (event.target.id === 'mapModal') closeMapModal();
+});
+
+document.getElementById('websiteBrowserModal').addEventListener('click', function (event) {
+  if (event.target.id === 'websiteBrowserModal') closeWebsiteBrowser();
+});
+
+document.getElementById('offlineOverlay').addEventListener('click', function (event) {
+  if (event.target.id === 'offlineOverlay') closeOffline();
+});
+
+document.addEventListener('click', function (event) {
+  const hashPill = event.target.closest && event.target.closest('a[href="#"]');
+  if (hashPill) event.preventDefault();
+}, true);
+</script>
+</body>
+</html>

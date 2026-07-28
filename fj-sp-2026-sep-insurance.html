@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Insurance – FJ-SP-2026-Sep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+:root {
+  --bg-main: #eefbff;
+  --bg-card: rgba(255,255,255,0.94);
+  --bg-card-soft: rgba(255,255,255,0.98);
+  --border-soft: rgba(8,145,178,0.16);
+  --text-main: #15365f;
+  --text-muted: #49657f;
+  --accent-blue: #0891b2;
+  --accent-teal: #0ea5a7;
+  --accent-soft: rgba(8,145,178,0.12);
+  --shadow-soft: 0 10px 28px rgba(15,118,110,0.12);
+  --radius-xl: 18px;
+  --radius-pill: 999px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  min-height: 100vh;
+  font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    linear-gradient(rgba(235,250,253,.76), rgba(244,252,253,.93) 42%, rgba(244,252,253,.98)),
+    url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top / cover fixed;
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  justify-content: center;
+}
+.page { width: 100%; max-width: 1280px; margin: 0 auto; padding: 28px 18px 80px; }
+.page-header { text-align: center; }
+.breadcrumb { text-transform: uppercase; letter-spacing: .22em; font-size: 12px; color: #0f6f88; font-weight: 600; margin-bottom: 8px; }
+.title { font-size: clamp(28px,3.6vw,42px); font-weight: 800; color: #15365f; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
+.subtitle { margin-top: 8px; font-size: 13px; color: #244c72; text-transform: uppercase; font-weight: 500; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 26px; align-items: center; justify-content: center; }
+.pill-button, .link-pill, .modal-close, .offline-box button {
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(8,145,178,.22);
+  background: rgba(255,255,255,.82);
+  color: #15365f;
+  box-shadow: 0 8px 20px rgba(8,145,178,.10);
+  backdrop-filter: blur(8px);
+  text-decoration: none;
+  cursor: pointer;
+}
+.pill-button { padding: 8px 15px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; color: #0891b2; }
+.section { margin-top: 30px; }
+.section-title { font-size: 17px; font-weight: 750; color: #15365f; margin-bottom: 14px; }
+.card {
+  width: 100%;
+  background: linear-gradient(180deg,var(--bg-card),var(--bg-card-soft));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
+  padding: 18px 19px;
+  margin-top: 14px;
+}
+.label { font-size: 17px; font-weight: 750; color: #15365f; }
+.label-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.policy-ref { font-size: 12px; color: #0891b2; font-weight: 800; white-space: nowrap; }
+.subtext { font-size: 13px; color: #49657f; margin-top: 5px; line-height: 1.45; }
+.policy-grid { display: grid; grid-template-columns: minmax(132px, .9fr) minmax(128px, .85fr) minmax(120px, .75fr) minmax(96px, .55fr) minmax(185px, 1.15fr) minmax(240px, 1.5fr); gap: 0; margin-top: 15px; }
+.policy-item { padding: 0 18px 0 0; }
+.policy-item + .policy-item { border-left: 1px solid rgba(8,145,178,.14); padding-left: 18px; }
+.meta-key { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #0891b2; margin-bottom: 4px; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.meta-value { font-size: 14px; color: #15365f; line-height: 1.35; }
+.card-footer { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.link-pill { padding: 6px 12px; font-size: 12px; font-weight: 700; color: #0891b2; white-space: nowrap; flex: 0 0 auto; }
+.link-pill:hover, .pill-button:hover { background: rgba(255,255,255,.96); border-color: rgba(8,145,178,.38); }
+.alert-pill { color: #9a6700; border-color: rgba(217,119,6,.35); background: rgba(254,243,199,.86); }
+.bottom-home { display: flex; justify-content: center; margin: 38px 0 0; }
+footer { margin-top: 32px; text-align: center; font-size: 12px; color: #49657f; line-height: 1.45; }
+footer a { color: #0891b2; text-decoration: none; font-weight: 700; }
+.desktop-only { display: inline; }
+.mobile-only { display: none; }
+.modal-overlay, .offline-overlay { position: fixed; inset: 0; background: rgba(21,54,95,.34); backdrop-filter: blur(10px); display: none; z-index: 9998; }
+.modal-overlay { flex-direction: column; }
+.offline-overlay { align-items: center; justify-content: center; z-index: 9999; }
+.modal-header { height: 52px; min-height: 52px; background: rgba(255,255,255,.96); border-bottom: 1px solid rgba(8,145,178,.16); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; color: #15365f; font-size: 14px; }
+.modal-title { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 12px; flex: 1 1 auto; }
+.modal-close { padding: 6px 12px; font-size: 13px; }
+.modal-frame { width: 100%; height: calc(100vh - 52px); border: 0; background: #eefbff; }
+.modal-shell { width: 100%; height: 100%; display: flex; flex-direction: column; }
+.offline-box { max-width: 420px; margin: 20px; padding: 20px 22px; background: linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.99)); border: 1px solid rgba(8,145,178,.16); border-radius: 18px; box-shadow: 0 20px 40px rgba(15,118,110,.18); text-align: center; }
+.offline-box h2 { margin: 0 0 10px; font-size: 20px; color: #15365f; }
+.offline-box p { margin: 0 0 16px; font-size: 14px; color: #49657f; line-height: 1.4; }
+.offline-box button { padding: 8px 16px; font-size: 14px; color: #0891b2; }
+@media (max-width: 900px) {
+  .policy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 0; }
+  .policy-item:nth-child(odd) { border-left: 0; padding-left: 0; }
+}
+@media (max-width: 640px) {
+  .desktop-only { display: none; }
+  .mobile-only { display: inline; }
+  .subtitle { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
+  .label-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .policy-grid { grid-template-columns: 1fr; gap: 10px; }
+  .policy-item, .policy-item + .policy-item { border-left: 0; padding-left: 0; padding-right: 0; }
+  .card-footer { flex-wrap: wrap; gap: 6px; }
+  .card-footer .link-pill { flex: 1 1 calc(50% - 6px); text-align: center; }
+  footer { line-height: 1.8; }
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="page-header">
+    <div class="breadcrumb">FJ-SP-2026-Sep · Fiji Trip</div>
+    <h1 class="title">Insurance</h1>
+    <p class="subtitle">
+      <span>Travel insurance quick reference</span>
+      <span>(30 Aug 2026 → 4 Sep 2026)</span>
+    </p>
+    <div class="toolbar">
+      <a href="https://fj-sp-2026-sep.trekworks.org/" class="pill-button">← Back to Trip Home</a>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-title">🛡️ Travel Insurance</div>
+
+    <article class="card">
+      <div class="label-row">
+        <div class="label">Insurance details</div>
+        <div class="policy-ref">Awaiting policy information</div>
+      </div>
+      <div class="subtext">Add each traveller’s insurer, policy number, cover dates, emergency assistance, claims details and offline policy documents.</div>
+      <div class="policy-grid">
+        <div class="policy-item"><div class="meta-key">📅 Trip</div><div class="meta-value">30 Aug 2026<br>to 4 Sep 2026</div></div>
+        <div class="policy-item"><div class="meta-key">🛡️ Status</div><div class="meta-value">Awaiting confirmed policy details</div></div>
+      </div>
+    </article>
+  </section>
+
+  <div class="bottom-home"><a href="https://fj-sp-2026-sep.trekworks.org/" class="pill-button">← Back to Trip Home</a></div>
+
+  <footer>
+    <div class="desktop-only">
+      For accommodation, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-accommodation.html">Accommodation</a>.
+      For flights, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-flights.html">Flights</a>.
+      For hire car, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-hire-car.html">Hire Car</a>.
+      For trip tasks, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-task-list.html">Task List</a>.
+    </div>
+    <div class="mobile-only">
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-accommodation.html">Accommodation</a> ·
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-flights.html">Flights</a> ·
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-hire-car.html">Hire Car</a> ·
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-task-list.html">Tasks</a>
+    </div>
+  </footer>
+</main>
+
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Document preview">
+  <div class="modal-shell">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Loading…</div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">X Close</button>
+    </div>
+    <iframe class="modal-frame" id="modalFrame" title="Document preview"></iframe>
+  </div>
+</div>
+
+<div class="offline-overlay" id="offlineOverlay">
+  <div class="offline-box">
+    <h2>You’re offline</h2>
+    <p>This content requires an internet connection.<br />You can continue using other parts of the app while offline.</p>
+    <button onclick="closeOffline()">OK</button>
+  </div>
+</div>
+
+<script>
+function openModal(url, title) {
+  verifyConnectivity().then(function () {
+    document.getElementById('modalTitle').textContent = title || 'Preview';
+    const frame = document.getElementById('modalFrame');
+    frame.removeAttribute('srcdoc');
+    frame.src = url;
+    document.getElementById('modalOverlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }).catch(showOffline);
+}
+function buildExternalLaunchCard(title, url) {
+  const safeTitle = escapeHtml(title || 'Open external link');
+  const safeUrl = escapeHtml(url || '');
+  return `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(rgba(235,250,253,.76),rgba(244,252,253,.93) 42%,rgba(244,252,253,.98)),url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top/cover fixed;color:#15365f;display:flex;align-items:center;justify-content:center;padding:18px}.launch-card{width:min(560px,100%);background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.99));border:1px solid rgba(8,145,178,.16);border-radius:22px;box-shadow:0 20px 40px rgba(15,118,110,.18);padding:22px;text-align:center}h1{margin:0 0 10px;font-size:20px;line-height:1.25;color:#15365f}p{margin:0 0 16px;color:#49657f;font-size:14px;line-height:1.45}.url{margin:0 0 16px;padding:10px 12px;border:1px solid rgba(8,145,178,.12);border-radius:14px;background:rgba(238,251,255,.72);color:#49657f;font-size:12px;overflow-wrap:anywhere;text-align:left}a{display:inline-flex;justify-content:center;align-items:center;width:100%;border-radius:999px;border:1px solid transparent;background:linear-gradient(135deg,#0ea5b7,#0284c7);color:#fff;padding:11px 14px;text-decoration:none;font-size:14px;font-weight:700}
+</style></head><body><div class="launch-card"><h1>${safeTitle}</h1><p>This page may block embedded app views. Open it directly in your browser, then use the X Close button above to return to the trip app.</p><div class="url">${safeUrl}</div><a href="${safeUrl}" target="_blank" rel="noopener">Open in Browser</a></div></body></html>`;
+}
+function escapeHtml(value) {
+  return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+function openExternal(url, title) {
+  verifyConnectivity().then(function () {
+    document.getElementById('modalTitle').textContent = title || 'External Link';
+    const frame = document.getElementById('modalFrame');
+    frame.removeAttribute('src');
+    frame.srcdoc = buildExternalLaunchCard(title, url);
+    document.getElementById('modalOverlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }).catch(showOffline);
+}
+function openMail(url) {
+  verifyConnectivity().then(function () {
+    window.location.href = url;
+  }).catch(showOffline);
+}
+function closeModal() {
+  document.getElementById('modalOverlay').style.display = 'none';
+  document.getElementById('modalFrame').removeAttribute('src');
+  document.getElementById('modalFrame').removeAttribute('srcdoc');
+  document.body.style.overflow = '';
+}
+function verifyConnectivity() {
+  return new Promise(function (resolve, reject) {
+    const controller = new AbortController();
+    const timeout = setTimeout(function () { controller.abort(); reject(); }, 800);
+    fetch('fj-sp-2026-sep-external.html', { cache: 'no-store', signal: controller.signal })
+      .then(function () { clearTimeout(timeout); resolve(); })
+      .catch(function () { clearTimeout(timeout); reject(); });
+  });
+}
+function showOffline() { document.getElementById('offlineOverlay').style.display = 'flex'; }
+function closeOffline() { document.getElementById('offlineOverlay').style.display = 'none'; }
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') { closeModal(); closeOffline(); }
+});
+document.getElementById('modalOverlay').addEventListener('click', function (event) {
+  if (event.target.id === 'modalOverlay') closeModal();
+});
+document.addEventListener('click', function (event) {
+  const hashPill = event.target.closest && event.target.closest('a[href="#"]');
+  if (hashPill) event.preventDefault();
+}, true);
+</script>
+</body>
+</html>

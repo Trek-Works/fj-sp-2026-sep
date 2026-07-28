@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FJ-SP-2026-Sep · Fiji Trip</title>
+
+  <link rel="manifest" href="./fj-sp-2026-sep-manifest.json" crossorigin="use-credentials" />
+  <meta name="theme-color" content="#0891b2" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Fiji Trip" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="apple-touch-icon" href="./assets/icons/icon-FJ-2026-192.png" />
+
+  <style>
+    :root {
+      --bg-main: #eefbff;
+      --bg-card: rgba(255,255,255,0.94);
+      --bg-card-soft: rgba(255,255,255,0.98);
+      --border-soft: rgba(8,145,178,0.16);
+      --text-main: #15365f;
+      --text-muted: #49657f;
+      --accent-blue: #0891b2;
+      --accent-teal: #0ea5a7;
+      --radius-card: 18px;
+      --radius-pill: 999px;
+      --shadow-card: 0 10px 28px rgba(15,118,110,0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
+      background:
+        linear-gradient(rgba(235,250,253,.76), rgba(244,252,253,.93) 42%, rgba(244,252,253,.98)),
+        url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top / cover fixed;
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1180px;
+      padding: 28px 18px 80px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .breadcrumb {
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: 12px;
+      color: #0f6f88;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(28px,3.6vw,42px);
+      font-weight: 800;
+      color: #15365f;
+      text-shadow: 0 1px 0 rgba(255,255,255,.6);
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #244c72;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .toolbar {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      border-radius: var(--radius-pill);
+      padding: 8px 15px;
+      font-size: 13px;
+      border: 1px solid rgba(8,145,178,.22);
+      background: rgba(255,255,255,.82);
+      color: #15365f;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 8px 20px rgba(8,145,178,.10);
+      backdrop-filter: blur(8px);
+    }
+
+    .pill.install {
+      color: #fff;
+      background: linear-gradient(135deg,#0ea5b7,#0284c7);
+      border-color: transparent;
+    }
+
+    .pill.trip-offline {
+      color: #92400e;
+      border-color: #f59e0b;
+      background: #fff7ed;
+    }
+
+    .pill.audio-on {
+      color: #ffffff;
+      background: linear-gradient(135deg,#14b8a6,#0284c7);
+      border-color: transparent;
+    }
+
+    @media (max-width: 640px) {
+      .subtitle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        text-align: center;
+      }
+    }
+
+    .grid {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: linear-gradient(180deg,var(--bg-card),var(--bg-card-soft));
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      padding: 18px 19px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      min-height: 160px;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .card-header {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .card-emoji { font-size: 27px; }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 750;
+      color: #15365f;
+    }
+
+    .card-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .24em;
+      color: #0891b2;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .card-text {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+
+    .card-link {
+      text-decoration: none;
+      color: var(--accent-blue);
+      font-size: 13px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    .hub-container {
+      text-align: center;
+      margin-top: 38px;
+    }
+
+    .hub-btn {
+      display: inline-block;
+      padding: 12px 26px;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(135deg,#0ea5b7,#0284c7);
+      border: 1px solid rgba(255,255,255,.44);
+      color: #ffffff;
+      font-size: 14px;
+      text-decoration: none;
+      letter-spacing: .3px;
+      box-shadow: 0 10px 24px rgba(8,145,178,.22);
+    }
+
+
+    .install-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(21,54,95,.38);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 1200;
+      backdrop-filter: blur(8px);
+    }
+
+    .install-modal.open { display: flex; }
+
+    .install-card {
+      width: min(520px, 100%);
+      border-radius: 18px;
+      background: rgba(255,255,255,.98);
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 24px 60px rgba(15,118,110,.22);
+      padding: 18px;
+    }
+
+    .install-card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .install-card h2 {
+      margin: 0;
+      font-size: 18px;
+      color: var(--text-main);
+    }
+
+    .install-close {
+      border: 0;
+      background: rgba(8,145,178,.10);
+      color: var(--text-main);
+      border-radius: 999px;
+      width: 32px;
+      height: 32px;
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .install-card p,
+    .install-card li {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .install-card ol { padding-left: 20px; margin-bottom: 0; }
+
+    .install-card strong {
+      color: var(--text-main);
+    }
+
+    .ios-install-helper {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 520px;
+      width: calc(100% - 28px);
+      background: rgba(255,255,255,.97);
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: none;
+      z-index: 999;
+      box-shadow: 0 20px 40px rgba(15,118,110,.18);
+    }
+
+    .ios-install-helper p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .ios-install-actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .ios-install-dismiss {
+      font-size: 12px;
+      color: var(--accent-blue);
+      cursor: pointer;
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <div class="breadcrumb">FJ-SP-2026-Sep · Fiji Trip</div>
+    <h1 class="title">Trip Home</h1>
+    <p class="subtitle">Fiji · 30 Aug 2026 → 4 Sep 2026</p>
+    <div class="toolbar">
+      <div class="pill" id="tripModePill">Trip Mode: Online</div>
+      <div class="pill" id="tripModeHelp">?</div>
+      <div class="pill" id="audioPill" title="Play or pause the Fiji trip background music">
+        <span>🎵</span><span id="audioPillText">Island Sound: Off</span>
+      </div>
+      <div class="pill install" id="installPill" style="display:none;">
+        <span>⬇️</span>Install App
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./fj-sp-2026-sep-accommodation.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🏨</div>
+          <div class="card-title">Accommodation</div>
+        </div>
+        <div class="card-text">Accommodation details, booking references, check-in information and property contact details.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./fj-sp-2026-sep-activities.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🎡</div>
+          <div class="card-title">Activities</div>
+        </div>
+        <div class="card-text">Tours, experiences, timing notes and booking placeholders for the Fiji itinerary.</div>
+      </article>
+
+      
+
+      
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./fj-sp-2026-sep-data-and-esim.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">📶</div>
+          <div class="card-title">Data and eSIM</div>
+        </div>
+        <div class="card-text">Mobile data, eSIM, roaming and connectivity notes for Fiji.</div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./fj-sp-2026-sep-flights.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">✈️</div>
+          <div class="card-title">Flights</div>
+        </div>
+        <div class="card-text">Flight details, booking references, passenger information and travel-day notes.</div>
+      </article>
+<article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./fj-sp-2026-sep-hire-car.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🚗</div>
+          <div class="card-title">Hire Car</div>
+        </div>
+        <div class="card-text">Car hire, driving arrangements and local transport reference placeholders.</div>
+      </article>
+
+      
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./fj-sp-2026-sep-insurance.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">🛡️</div>
+          <div class="card-title">Insurance</div>
+        </div>
+        <div class="card-text">Travel insurance documents, emergency contact details and policy reference placeholders.</div>
+      </article>
+
+      
+
+      
+
+      <article class="card">
+        <div class="card-top">
+          <div class="card-tag">TRIP ELEMENT</div>
+          <a class="card-link" href="./fj-sp-2026-sep-task-list.html">Open ↗</a>
+        </div>
+        <div class="card-header">
+          <div class="card-emoji">📝</div>
+          <div class="card-title">Task List</div>
+        </div>
+        <div class="card-text">Trip preparation, pre-departure tasks, booking checks and final readiness checklist.</div>
+      </article>
+
+      
+
+      
+
+    </div>
+
+    <div class="hub-container">
+      <a href="https://portal.trekworks.org/" class="hub-btn">← Back to TrekWorks Hub</a>
+    </div>
+  </main>
+</div>
+
+<audio id="tripAudio" loop preload="none">
+  <source src="./assets/audio/fiji-theme.mp3" type="audio/mpeg">
+</audio>
+
+
+<div class="install-modal" id="installModal" aria-hidden="true">
+  <div class="install-card" role="dialog" aria-modal="true" aria-labelledby="installModalTitle">
+    <div class="install-card-header">
+      <h2 id="installModalTitle">Install Fiji Trip App</h2>
+      <button class="install-close" id="installModalClose" type="button" aria-label="Close install instructions">×</button>
+    </div>
+    <div id="installModalBody">
+      <p>Use your browser menu to install this trip app for offline use.</p>
+    </div>
+  </div>
+</div>
+
+<div class="ios-install-helper" id="iosInstallHelper">
+  <p>
+    <strong>Install this trip for offline use</strong><br>
+    Tap <strong>Share</strong> then <strong>Add to Home Screen</strong> in Safari.
+  </p>
+  <div class="ios-install-actions">
+    <span class="ios-install-dismiss" id="iosInstallDismiss">Dismiss</span>
+  </div>
+</div>
+
+<script>
+const TRIP_ID = "FJ-SP-2026-Sep";
+const TRIP_MODE_LS_KEY = "trekworks.tripMode:FJ-SP-2026-Sep";
+const DEFAULT_TRIP_MODE = "online";
+
+const DB_NAME = "trekworks";
+const DB_VERSION = 1;
+const STORE_NAME = "settings";
+const TRIP_MODE_KEY = "tripMode:FJ-SP-2026-Sep";
+
+function openTripDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME);
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function persistTripModeToDB(mode) {
+  try {
+    const db = await openTripDB();
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    tx.objectStore(STORE_NAME).put(mode, TRIP_MODE_KEY);
+  } catch {}
+}
+
+(async () => {
+  try {
+    const db = await openTripDB();
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const store = tx.objectStore(STORE_NAME);
+    const req = store.get(TRIP_MODE_KEY);
+    req.onsuccess = () => {
+      if (req.result === undefined) {
+        const mode =
+          localStorage.getItem(TRIP_MODE_LS_KEY) || DEFAULT_TRIP_MODE;
+        persistTripModeToDB(mode);
+      }
+    };
+  } catch {}
+})();
+
+function getTripMode() {
+  return localStorage.getItem(TRIP_MODE_LS_KEY) || DEFAULT_TRIP_MODE;
+}
+
+function setTripMode(mode) {
+  localStorage.setItem(TRIP_MODE_LS_KEY, mode);
+  persistTripModeToDB(mode);
+}
+
+const tripPill = document.getElementById("tripModePill");
+const helpPill = document.getElementById("tripModeHelp");
+
+function refreshTripModeUI() {
+  const mode = getTripMode();
+  if (mode === "offline") {
+    tripPill.textContent = "Trip Mode: Offline";
+    tripPill.classList.add("trip-offline");
+  } else {
+    tripPill.textContent = "Trip Mode: Online";
+    tripPill.classList.remove("trip-offline");
+  }
+}
+
+tripPill.addEventListener("click", () => {
+  const next = getTripMode() === "offline" ? "online" : "offline";
+  setTripMode(next);
+  refreshTripModeUI();
+});
+
+helpPill.addEventListener("click", () => {
+  alert(
+    "Trip Mode controls how external links behave while travelling.\n\n" +
+    "Offline: keeps you inside the app.\n" +
+    "Online: allows external sites."
+  );
+});
+
+refreshTripModeUI();
+
+const AUDIO_LS_KEY = "trekworks.tripAudio:FJ-SP-2026-Sep";
+const audioPill = document.getElementById("audioPill");
+const audioPillText = document.getElementById("audioPillText");
+const tripAudio = document.getElementById("tripAudio");
+
+function getAudioPreference() {
+  return localStorage.getItem(AUDIO_LS_KEY) === "on" ? "on" : "off";
+}
+
+function setAudioPreference(mode) {
+  localStorage.setItem(AUDIO_LS_KEY, mode);
+}
+
+function refreshAudioUI(mode) {
+  if (!audioPill || !audioPillText) return;
+
+  if (mode === "on") {
+    audioPill.classList.add("audio-on");
+    audioPillText.textContent = "Island Sound: On";
+  } else {
+    audioPill.classList.remove("audio-on");
+    audioPillText.textContent = "Island Sound: Off";
+  }
+}
+
+async function playTripAudio() {
+  if (!tripAudio) return false;
+
+  try {
+    tripAudio.volume = 0.28;
+    await tripAudio.play();
+    setAudioPreference("on");
+    refreshAudioUI("on");
+    return true;
+  } catch {
+    setAudioPreference("off");
+    refreshAudioUI("off");
+    return false;
+  }
+}
+
+function pauseTripAudio() {
+  if (!tripAudio) return;
+  tripAudio.pause();
+  setAudioPreference("off");
+  refreshAudioUI("off");
+}
+
+if (audioPill && tripAudio) {
+  refreshAudioUI(getAudioPreference());
+
+  audioPill.addEventListener("click", async () => {
+    if (tripAudio.paused) {
+      await playTripAudio();
+    } else {
+      pauseTripAudio();
+    }
+  });
+
+  tripAudio.addEventListener("ended", () => {
+    refreshAudioUI("off");
+  });
+}
+
+let deferredInstallPrompt = null;
+let serviceWorkerReadyPromise = Promise.resolve();
+
+const installPill = document.getElementById("installPill");
+const installModal = document.getElementById("installModal");
+const installModalBody = document.getElementById("installModalBody");
+const installModalClose = document.getElementById("installModalClose");
+
+function isStandaloneMode() {
+  return window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true;
+}
+
+function getBrowserInfo() {
+  const ua = navigator.userAgent || "";
+  return {
+    ua,
+    isAndroid: /Android/i.test(ua),
+    isIOS: /iPad|iPhone|iPod/i.test(ua),
+    isChrome: /Chrome|CriOS/i.test(ua) && !/Edg|OPR|SamsungBrowser/i.test(ua),
+    isSamsung: /SamsungBrowser/i.test(ua),
+    isEdge: /Edg/i.test(ua),
+    isFirefox: /Firefox|FxiOS/i.test(ua)
+  };
+}
+
+function showInstallPill() {
+  if (!installPill) return;
+
+  if (isStandaloneMode()) {
+    installPill.style.display = "none";
+    return;
+  }
+
+  installPill.style.display = "inline-flex";
+  installPill.innerHTML = "<span>⬇️</span>Install App";
+}
+
+function hideInstallPill() {
+  if (!installPill) return;
+  installPill.style.display = "none";
+}
+
+async function runNativeInstallPrompt() {
+  if (!deferredInstallPrompt) return false;
+
+  const promptEvent = deferredInstallPrompt;
+  deferredInstallPrompt = null;
+
+  promptEvent.prompt();
+
+  try {
+    const choice = await promptEvent.userChoice;
+    if (choice && choice.outcome === "accepted") {
+      hideInstallPill();
+    } else {
+      showInstallPill();
+    }
+  } catch {
+    showInstallPill();
+  }
+
+  return true;
+}
+
+function showInstallInstructions() {
+  const browser = getBrowserInfo();
+
+  let html = `
+    <p>Apple devices install web apps from Safari.</p>
+    <ol>
+      <li>Open this page in <strong>Safari</strong>.</li>
+      <li>Tap <strong>Share</strong>.</li>
+      <li>Tap <strong>Add to Home Screen</strong>.</li>
+    </ol>`;
+
+  if (!browser.isIOS) {
+    html = `
+      <p>Chrome has not made the automatic install prompt available right now.</p>
+      <ol>
+        <li>Tap the browser menu <strong>⋮</strong> in the top-right corner.</li>
+        <li>Look for <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li>
+        <li>If it does not appear, refresh this page once and try again.</li>
+      </ol>
+      <p><strong>Note:</strong> after uninstalling, Chrome may temporarily delay the native install prompt. This button remains available so the manual install path is always visible.</p>`;
+  }
+
+  installModalBody.innerHTML = html;
+  installModal.classList.add("open");
+  installModal.setAttribute("aria-hidden", "false");
+}
+
+function hideInstallInstructions() {
+  installModal.classList.remove("open");
+  installModal.setAttribute("aria-hidden", "true");
+}
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  showInstallPill();
+});
+
+window.addEventListener("appinstalled", () => {
+  hideInstallPill();
+  deferredInstallPrompt = null;
+});
+
+installPill.addEventListener("click", async () => {
+  if (isStandaloneMode()) {
+    hideInstallPill();
+    return;
+  }
+
+  hideInstallInstructions();
+
+  try {
+    await serviceWorkerReadyPromise;
+
+    if (await runNativeInstallPrompt()) return;
+
+    showInstallInstructions();
+  } catch {
+    showInstallInstructions();
+  }
+});
+
+installModalClose.addEventListener("click", hideInstallInstructions);
+installModal.addEventListener("click", (event) => {
+  if (event.target === installModal) hideInstallInstructions();
+});
+
+// Cloudflare Access remains the security gatekeeper. This page-level check only
+// controls whether an already-authorised browser session shows the install UI.
+(function initialiseInstallPillVisibility() {
+  showInstallPill();
+})();
+
+if ("serviceWorker" in navigator) {
+  serviceWorkerReadyPromise = navigator.serviceWorker.register("./fj-sp-2026-sep-service-worker.js", { scope: "./" })
+    .then((registration) => registration.update().then(() => navigator.serviceWorker.ready))
+    .catch(() => Promise.resolve());
+}
+
+(function initialiseIOSInstallHelper() {
+  const DISMISS_KEY = "trekworks.iosInstallDismissed:FJ-SP-2026-Sep";
+  const helper = document.getElementById("iosInstallHelper");
+  const dismissBtn = document.getElementById("iosInstallDismiss");
+
+  if (!helper || !dismissBtn) return;
+
+  const browser = getBrowserInfo();
+  const isSafari = /^((?!chrome|android).)*safari/i.test(browser.ua);
+  const dismissed = localStorage.getItem(DISMISS_KEY) === "true";
+
+  if (browser.isIOS && isSafari && !isStandaloneMode() && !dismissed) {
+    helper.style.display = "block";
+  }
+
+  dismissBtn.addEventListener("click", () => {
+    localStorage.setItem(DISMISS_KEY, "true");
+    helper.style.display = "none";
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Task List – FJ-SP-2026-Sep</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+:root {
+  --bg-main: #eefbff;
+  --bg-card: rgba(255,255,255,0.94);
+  --bg-card-soft: rgba(255,255,255,0.98);
+  --border-soft: rgba(8,145,178,0.16);
+  --text-main: #15365f;
+  --text-muted: #49657f;
+  --accent-blue: #0891b2;
+  --accent-teal: #0ea5a7;
+  --accent-soft: rgba(8,145,178,0.12);
+  --shadow-soft: 0 10px 28px rgba(15,118,110,0.12);
+  --radius-xl: 18px;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    linear-gradient(rgba(235,250,253,.76), rgba(244,252,253,.93) 42%, rgba(244,252,253,.98)),
+    url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top / cover fixed;
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  justify-content: center;
+}
+
+button, input { font: inherit; }
+
+.page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 18px 80px;
+}
+
+.page-header { text-align: center; }
+
+.breadcrumb {
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  font-size: 12px;
+  color: #0f6f88;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(28px,3.6vw,42px);
+  font-weight: 800;
+  color: #15365f;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6);
+}
+
+.subtitle {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #244c72;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 26px;
+  align-items: center;
+  justify-content: center;
+}
+
+.pill-button,
+.link-pill,
+.modal-close,
+.offline-box button {
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(8,145,178,.22);
+  background: rgba(255,255,255,.82);
+  color: #15365f;
+  box-shadow: 0 8px 20px rgba(8,145,178,.10);
+  backdrop-filter: blur(8px);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.pill-button {
+  padding: 8px 15px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0891b2;
+}
+
+.pill-button:hover,
+.link-pill:hover,
+.modal-close:hover,
+.offline-box button:hover {
+  background: rgba(255,255,255,.96);
+  border-color: rgba(8,145,178,.38);
+}
+
+.progress-card {
+  background: linear-gradient(145deg, rgba(14,165,183,.16), rgba(255,255,255,.97));
+  border: 1px solid rgba(8,145,178,.20);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
+  padding: 16px 18px;
+  margin: 0 0 28px;
+}
+
+.progress-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.progress-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #15365f;
+}
+
+.progress-count {
+  font-size: 13px;
+  color: #0891b2;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.progress-track {
+  height: 8px;
+  margin-top: 11px;
+  border-radius: var(--radius-pill);
+  background: rgba(8,145,178,.12);
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#0ea5a7,#0284c7);
+  transition: width .2s ease;
+}
+
+.progress-note {
+  margin-top: 9px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #49657f;
+}
+
+.section { margin-top: 30px; }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 750;
+  color: #15365f;
+}
+
+.section-subtitle {
+  margin: 0;
+  font-size: 12px;
+  color: #49657f;
+  text-align: right;
+}
+
+.task-card {
+  background: linear-gradient(180deg,var(--bg-card),var(--bg-card-soft));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
+  padding: 10px;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 12px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  transition: background .16s ease, border-color .16s ease, opacity .16s ease;
+}
+
+.task-item + .task-item { margin-top: 5px; }
+
+.task-item:hover {
+  background: rgba(238,251,255,.70);
+  border-color: rgba(8,145,178,.10);
+}
+
+.task-item.priority {
+  background: rgba(254,243,199,.60);
+  border-color: rgba(217,119,6,.20);
+}
+
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: #0ea5a7;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.task-content { flex: 1 1 auto; min-width: 0; }
+
+.task-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.task-title {
+  color: #15365f;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.task-note {
+  margin-top: 4px;
+  color: #49657f;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.task-tag {
+  flex: 0 0 auto;
+  border-radius: var(--radius-pill);
+  padding: 4px 9px;
+  font-size: 10px;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #0f6f88;
+  background: rgba(8,145,178,.09);
+  border: 1px solid rgba(8,145,178,.18);
+  white-space: nowrap;
+}
+
+.task-tag.attention {
+  color: #9a6700;
+  background: rgba(254,243,199,.86);
+  border-color: rgba(217,119,6,.32);
+}
+
+.task-tag.green {
+  color: #0f766e;
+  background: rgba(204,251,241,.74);
+  border-color: rgba(13,148,136,.22);
+}
+
+.task-tag.purple {
+  color: #6d28d9;
+  background: rgba(237,233,254,.76);
+  border-color: rgba(124,58,237,.18);
+}
+
+.task-tag.gray {
+  color: #475569;
+  background: rgba(241,245,249,.88);
+  border-color: rgba(100,116,139,.18);
+}
+
+.task-item.is-complete { opacity: .68; }
+.task-item.is-complete .task-title { text-decoration: line-through; text-decoration-thickness: 1px; }
+
+.card-footer {
+  margin-top: 12px;
+  padding: 0 2px 2px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.link-pill {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0891b2;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.bottom-home { display: flex; justify-content: center; margin: 38px 0 0; }
+
+.footer-nav {
+  margin-top: 32px;
+  font-size: 12px;
+  color: #49657f;
+  text-align: center;
+}
+
+.footer-line {
+  max-width: 980px;
+  margin: 0 auto;
+  line-height: 1.45;
+}
+
+.footer-line a {
+  color: #0891b2;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.footer-line a:hover { text-decoration: underline; }
+.desktop-only { display: inline; }
+.mobile-only { display: none; }
+
+.modal-overlay,
+.offline-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(21,54,95,.34);
+  backdrop-filter: blur(10px);
+  display: none;
+  z-index: 9998;
+}
+
+.modal-overlay { flex-direction: column; }
+.offline-overlay { align-items: center; justify-content: center; z-index: 9999; }
+
+.modal-header {
+  height: 52px;
+  min-height: 52px;
+  background: rgba(255,255,255,.96);
+  border-bottom: 1px solid rgba(8,145,178,.16);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  color: #15365f;
+  font-size: 14px;
+}
+
+.modal-title {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 12px;
+}
+
+.modal-close { padding: 6px 12px; font-size: 13px; }
+
+.external-panel-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  overflow: auto;
+}
+
+.external-panel {
+  width: min(560px, 100%);
+  background: linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.99));
+  border: 1px solid rgba(8,145,178,.16);
+  border-radius: 22px;
+  box-shadow: 0 20px 40px rgba(15,118,110,.18);
+  padding: 22px;
+  text-align: center;
+}
+
+.external-panel h2 { margin: 0 0 10px; font-size: 20px; color: #15365f; }
+.external-panel p { margin: 0 0 16px; color: #49657f; font-size: 14px; line-height: 1.45; }
+.external-url {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border: 1px solid rgba(8,145,178,.12);
+  border-radius: 14px;
+  background: rgba(238,251,255,.72);
+  color: #49657f;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.external-open {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  background: linear-gradient(135deg,#0ea5b7,#0284c7);
+  color: #fff;
+  padding: 11px 14px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.offline-box {
+  max-width: 420px;
+  margin: 20px;
+  padding: 20px 22px;
+  background: linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.99));
+  border: 1px solid rgba(8,145,178,.16);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(15,118,110,.18);
+  text-align: center;
+}
+
+.offline-box h2 { margin: 0 0 10px; font-size: 20px; color: #15365f; }
+.offline-box p { margin: 0 0 16px; font-size: 14px; color: #49657f; line-height: 1.4; }
+.offline-box button { padding: 8px 16px; font-size: 14px; color: #0891b2; }
+
+@media (max-width: 640px) {
+  .subtitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    text-align: center;
+  }
+
+  .progress-top { align-items: flex-start; }
+  .section-head { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .section-subtitle { text-align: left; }
+  .task-title-row { flex-direction: column; gap: 7px; }
+  .task-tag { align-self: flex-start; }
+  .card-footer .link-pill { flex: 1 1 calc(50% - 6px); text-align: center; }
+  .footer-line { line-height: 1.8; }
+  .desktop-only { display: none; }
+  .mobile-only { display: inline; }
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="page-header">
+    <div class="breadcrumb">FJ-SP-2026-Sep · Fiji Trip</div>
+    <h1 class="title">Task List Guide</h1>
+    <p class="subtitle">
+      <span>Essential pre-trip, entry and travel-day checks</span>
+      <span>(30 Aug 2026 → 4 Sep 2026)</span>
+    </p>
+    <div class="toolbar">
+      <a href="https://fj-sp-2026-sep.trekworks.org/" class="pill-button">← Back to Trip Home</a>
+    </div>
+  </div>
+
+  <div class="progress-card" aria-live="polite">
+    <div class="progress-top">
+      <div class="progress-title">Trip readiness</div>
+      <div class="progress-count" id="progressCount">0 of 26 complete</div>
+    </div>
+    <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-note">Checks are saved on this device and remain available when the trip app is offline.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">⚠️ Priority booking actions</h2>
+      <p class="section-subtitle">Confirm the core bookings and trip arrangements</p>
+    </div>
+    <div class="task-card">
+      <ul class="task-list">
+        <li class="task-item priority">
+          <input class="task-checkbox" type="checkbox" data-task-id="hire-car-times" aria-label="Confirm hire car arrangements" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Confirm any hire-car pickup and return arrangements</div>
+              <div class="task-tag attention">Action required</div>
+            </div>
+            <div class="task-note">If a vehicle is required, confirm the supplier, pickup and return locations, times, driver requirements, payment and insurance before departure.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="confirm-flights" aria-label="Confirm flights" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Confirm the outbound and return flights for every traveller</div>
+              <div class="task-tag">Flights</div>
+            </div>
+            <div class="task-note">Recheck passenger names, travel dates, airports, flight times, seating, meals and the booked baggage allowance.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="confirm-hotels" aria-label="Confirm accommodation" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Confirm all accommodation bookings for the trip</div>
+              <div class="task-tag green">Accommodation</div>
+            </div>
+            <div class="task-note">Confirm each property, stay date, room, guest name, check-in time, payment status and reservation reference for 30 Aug to 4 Sep.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="confirm-insurance" aria-label="Confirm insurance" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Confirm every traveller has suitable active insurance</div>
+              <div class="task-tag purple">Insurance</div>
+            </div>
+            <div class="task-note">Confirm the policy covers Fiji for 30 Aug to 4 Sep 2026. Save each policy, PDS, claims details and emergency number offline.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">🛂 Entry, immigration and customs</h2>
+      <p class="section-subtitle">Check the requirements that apply to every traveller</p>
+    </div>
+    <div class="task-card">
+      <ul class="task-list">
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="passport-validity" aria-label="Check passport validity" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Check every passport and carry it in hand luggage</div>
+              <div class="task-tag gray">Passport</div>
+            </div>
+            <div class="task-note">Confirm each passport is valid well beyond 4 Sep 2026 and meets the entry and transit requirements that apply to the traveller.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="visa-entry" aria-label="Reconfirm Fiji entry requirements" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Reconfirm visa-free visitor entry one week before departure</div>
+              <div class="task-tag">Entry</div>
+            </div>
+            <div class="task-note">Recheck Fiji entry and transit requirements for each traveller’s passport. Keep the return flight, confirmed accommodation address and access to sufficient funds ready for Immigration.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="arrival-cards" aria-label="Complete Fiji arrival cards" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Complete a Fiji Passenger Arrival Card for each traveller</div>
+              <div class="task-tag green">On arrival</div>
+            </div>
+            <div class="task-note">Complete both sides before landing and use the address of the first confirmed accommodation.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="customs-declaration" aria-label="Review customs declarations" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Review customs and biosecurity declarations before packing</div>
+              <div class="task-tag attention">Declare when unsure</div>
+            </div>
+            <div class="task-note">Declare food of any kind, plant or animal products, seeds, honey, used outdoor equipment and other biosecurity-risk goods. Declare currency of FJ$10,000 or more, or the foreign-currency equivalent.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="medication-docs" aria-label="Prepare medication documents" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Prepare documents for prescription or controlled medicines</div>
+              <div class="task-tag purple">Medicines</div>
+            </div>
+            <div class="task-note">Carry medicines in original packaging with the prescription or a doctor’s letter confirming they are medically necessary and for personal use.</div>
+          </div>
+        </li>
+      </ul>
+      <div class="card-footer">
+        <a href="#" class="link-pill" onclick="openExternal('https://www.immigration.gov.fj/entering-fiji/', 'Fiji Immigration — Entering Fiji'); return false;">Fiji Immigration</a>
+        <a href="#" class="link-pill" onclick="openExternal('https://frcs.org.fj/our-services/customs/travellers/visiting-fiji/arriving-in-fiji/', 'Fiji Customs — Arriving in Fiji'); return false;">Customs &amp; Biosecurity</a>
+        <a href="#" class="link-pill" onclick="openExternal('https://www.smartraveller.gov.au/destinations/pacific/fiji', 'Smartraveller — Fiji'); return false;">Smartraveller</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">🚗 Hire car and road travel</h2>
+      <p class="section-subtitle">Documents, payment and offline navigation</p>
+    </div>
+    <div class="task-card">
+      <ul class="task-list">
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="driving-docs" aria-label="Pack driving documents" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">If hiring a car, pack the required driver licence and IDP</div>
+              <div class="task-tag gray">Driver ID</div>
+            </div>
+            <div class="task-note">Confirm the supplier’s licence requirements and keep the physical licence and any required International Driving Permit in carry-on luggage.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="rental-docs" aria-label="Save rental documents" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Save the hire-car booking and protection documents offline</div>
+              <div class="task-tag">Rental booking</div>
+            </div>
+            <div class="task-note">Include the booking confirmation, protection or insurance documents, collection map and supplier contact details.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="rental-payment" aria-label="Prepare rental payment" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Prepare the payment card and any remaining rental balance</div>
+              <div class="task-tag green">Payment</div>
+            </div>
+            <div class="task-note">Confirm the outstanding balance, accepted card, security-deposit requirement, fuel policy and whether the named driver must present the card.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="offline-maps" aria-label="Download offline maps" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Download offline maps and save all confirmed trip locations</div>
+              <div class="task-tag purple">Navigation</div>
+            </div>
+            <div class="task-note">Save the airports, accommodation, transport collection points and planned activity locations before leaving Australia.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="vehicle-inspection" aria-label="Inspect rental vehicle" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Photograph the vehicle at pickup and confirm return conditions</div>
+              <div class="task-tag gray">At pickup</div>
+            </div>
+            <div class="task-note">Record all panels, wheels, windscreen, fuel level and odometer before driving away. Confirm the drop-off location, after-hours process and emergency contact.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">📱 Money, phone and offline access</h2>
+      <p class="section-subtitle">Payment resilience and access without mobile data</p>
+    </div>
+    <div class="task-card">
+      <ul class="task-list">
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="bank-cards" aria-label="Prepare bank cards" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Check bank cards, limits and PINs</div>
+              <div class="task-tag green">Money</div>
+            </div>
+            <div class="task-note">Ensure the main and backup cards are active for Fiji, have sufficient limits for hotels and car hire, and are stored separately.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="fiji-cash" aria-label="Prepare Fiji cash" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Arrange a modest amount of Fiji dollars for arrival</div>
+              <div class="task-tag">FJD cash</div>
+            </div>
+            <div class="task-note">Carry enough for small purchases and unexpected card issues; use cards for larger transactions where practical.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="esim" aria-label="Prepare Fiji eSIM" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Install and test the Vodafone Fiji eSIM before departure</div>
+              <div class="task-tag purple">Connectivity</div>
+            </div>
+            <div class="task-note">Save the Account Login, User Manual and Support details offline. Keep the Australian SIM active for messages but disable its mobile-data roaming.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="offline-documents" aria-label="Download travel documents" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Download a complete offline travel-document set</div>
+              <div class="task-tag gray">Offline</div>
+            </div>
+            <div class="task-note">Save flight, accommodation, hire-car and insurance documents, passport copies, emergency contacts and key screenshots to both phones.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="charging" aria-label="Pack charging equipment" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Pack chargers, cables and a charged power bank</div>
+              <div class="task-tag green">Power</div>
+            </div>
+            <div class="task-note">Fiji uses the same Type I plug as Australia, so an adaptor is normally unnecessary for Australian devices.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">🧳 Packing and health</h2>
+      <p class="section-subtitle">Only the essential Fiji-specific checks</p>
+    </div>
+    <div class="task-card">
+      <ul class="task-list">
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="baggage-weight" aria-label="Check baggage weight" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Weigh every checked bag and carry-on</div>
+              <div class="task-tag">Booked limits</div>
+            </div>
+            <div class="task-note">Check each traveller’s booked carry-on and checked-baggage allowance and leave room for purchases on the return flight.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="carry-on" aria-label="Prepare carry-on essentials" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Prepare one complete carry-on essentials set</div>
+              <div class="task-tag gray">Carry-on</div>
+            </div>
+            <div class="task-note">Passports, licences and IDPs, medicines, chargers, insurance details, valuables, arrival-card pens and one change of clothes.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="tropical-packing" aria-label="Pack tropical essentials" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Pack tropical-weather and mosquito protection</div>
+              <div class="task-tag green">Fiji</div>
+            </div>
+            <div class="task-note">Include sunscreen, hats, insect repellent, light rain protection, swimwear, suitable footwear and a light layer for air-conditioned spaces.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">✈️ Final 48 hours and travel day</h2>
+      <p class="section-subtitle">Check-in, airport timing and the last departure sweep</p>
+    </div>
+    <div class="task-card">
+      <ul class="task-list">
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="airline-checkin" aria-label="Complete airline check-in" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Check flight status and complete online check-in</div>
+              <div class="task-tag">48 hours</div>
+            </div>
+            <div class="task-note">Save boarding passes to each phone and take screenshots. Reconfirm terminals, baggage rules and any schedule changes for both flights.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="sydney-airport" aria-label="Confirm Sydney airport plan" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Confirm the departure-airport plan</div>
+              <div class="task-tag green">30 Aug</div>
+            </div>
+            <div class="task-note">Confirm the departure terminal, transport to the airport and the airline’s recommended international check-in time.</div>
+          </div>
+        </li>
+        <li class="task-item">
+          <input class="task-checkbox" type="checkbox" data-task-id="home-check" aria-label="Secure home" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Complete the final home and luggage sweep</div>
+              <div class="task-tag gray">Before leaving</div>
+            </div>
+            <div class="task-note">Check doors, windows, appliances, bins, mail and keys; then confirm passports, phones, wallets and medicines before departure.</div>
+          </div>
+        </li>
+        <li class="task-item priority">
+          <input class="task-checkbox" type="checkbox" data-task-id="nadi-return" aria-label="Confirm the return-day plan" />
+          <div class="task-content">
+            <div class="task-title-row">
+              <div class="task-title">Lock in the return-day sequence</div>
+              <div class="task-tag attention">4 Sep</div>
+            </div>
+            <div class="task-note">Confirm accommodation checkout, airport transport, any vehicle return, the departure terminal and the required international check-in time.</div>
+          </div>
+        </li>
+      </ul>
+      
+    </div>
+  </section>
+
+  <div class="bottom-home">
+    <a href="https://fj-sp-2026-sep.trekworks.org/" class="pill-button">← Back to Trip Home</a>
+  </div>
+
+  <footer class="footer-nav">
+    <div class="footer-line desktop-only">
+      For accommodation, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-accommodation.html">Accommodation</a>.
+      For flights, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-flights.html">Flights</a>.
+      For activities, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-activities.html">Activities</a>.
+      For road travel, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-hire-car.html">Hire Car</a>.
+      For policy details, see <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-insurance.html">Insurance</a>.
+    </div>
+    <div class="footer-line mobile-only">
+      See <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-accommodation.html">Accommodation</a>,
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-flights.html">Flights</a>,
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-activities.html">Activities</a>,
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-hire-car.html">Hire Car</a>
+      and <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-insurance.html">Insurance</a>.
+    </div>
+  </footer>
+</main>
+
+<div class="modal-overlay" id="externalModal" role="dialog" aria-modal="true" aria-labelledby="externalTitle">
+  <div class="modal-header">
+    <div class="modal-title" id="externalTitle">External Link</div>
+    <button class="modal-close" type="button" onclick="closeExternal()">X Close</button>
+  </div>
+  <div class="external-panel-wrap">
+    <div class="external-panel">
+      <h2 id="externalHeading">Open external page</h2>
+      <p>This official website may not display inside the trip app. Open it in your browser, then return to the trip app when finished.</p>
+      <div class="external-url" id="externalUrl">—</div>
+      <a class="external-open" id="externalOpenLink" href="#" target="_blank" rel="noopener">Open in Browser</a>
+    </div>
+  </div>
+</div>
+
+<div class="offline-overlay" id="offlineOverlay">
+  <div class="offline-box">
+    <h2>You’re offline</h2>
+    <p>This content requires an internet connection.<br />Your checklist and saved progress remain available offline.</p>
+    <button type="button" onclick="closeOffline()">OK</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const storageKey = 'fj-sp-2026-sep-task-list-v2';
+  const boxes = Array.from(document.querySelectorAll('.task-checkbox[data-task-id]'));
+  let saved = {};
+
+  try {
+    saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+  } catch (error) {
+    saved = {};
+  }
+
+  boxes.forEach(function (box) {
+    box.checked = saved[box.dataset.taskId] === true;
+    setCompletedState(box);
+    box.addEventListener('change', function () {
+      saved[box.dataset.taskId] = box.checked;
+      try { localStorage.setItem(storageKey, JSON.stringify(saved)); } catch (error) {}
+      setCompletedState(box);
+      updateProgress();
+    });
+  });
+
+  function setCompletedState(box) {
+    const item = box.closest('.task-item');
+    if (item) item.classList.toggle('is-complete', box.checked);
+  }
+
+  function updateProgress() {
+    const complete = boxes.filter(function (box) { return box.checked; }).length;
+    const total = boxes.length;
+    const percent = total ? Math.round((complete / total) * 100) : 0;
+    document.getElementById('progressCount').textContent = complete + ' of ' + total + ' complete';
+    document.getElementById('progressFill').style.width = percent + '%';
+  }
+
+  updateProgress();
+})();
+
+function verifyConnectivity() {
+  return new Promise(function (resolve, reject) {
+    if (navigator.onLine === false) {
+      reject(new Error('offline'));
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(function () {
+      controller.abort();
+      reject(new Error('timeout'));
+    }, 2500);
+
+    fetch('https://www.gstatic.com/generate_204?trekworks=' + Date.now(), {
+      mode: 'no-cors',
+      cache: 'no-store',
+      signal: controller.signal
+    }).then(function () {
+      clearTimeout(timeout);
+      resolve();
+    }).catch(function (error) {
+      clearTimeout(timeout);
+      reject(error);
+    });
+  });
+}
+
+function openExternal(url, title) {
+  verifyConnectivity().then(function () {
+    document.getElementById('externalTitle').textContent = title || 'External Link';
+    document.getElementById('externalHeading').textContent = title || 'Open external page';
+    document.getElementById('externalUrl').textContent = url;
+    document.getElementById('externalOpenLink').href = url;
+    document.getElementById('externalModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }).catch(showOffline);
+}
+
+function closeExternal() {
+  document.getElementById('externalModal').style.display = 'none';
+  document.getElementById('externalOpenLink').href = '#';
+  document.body.style.overflow = '';
+}
+
+function showOffline() {
+  document.getElementById('offlineOverlay').style.display = 'flex';
+}
+
+function closeOffline() {
+  document.getElementById('offlineOverlay').style.display = 'none';
+}
+
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') {
+    closeExternal();
+    closeOffline();
+  }
+});
+
+document.getElementById('externalModal').addEventListener('click', function (event) {
+  if (event.target.id === 'externalModal') closeExternal();
+});
+
+document.addEventListener('click', function (event) {
+  const hashPill = event.target.closest && event.target.closest('a[href="#"]');
+  if (hashPill) event.preventDefault();
+}, true);
+</script>
+</body>
+</html>

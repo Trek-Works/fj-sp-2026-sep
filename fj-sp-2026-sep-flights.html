@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Flights – FJ-SP-2026-Sep</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<style>
+  :root {
+    --bg-main: #eefbff;
+    --bg-card: rgba(255,255,255,0.94);
+    --bg-card-soft: rgba(255,255,255,0.98);
+    --border-soft: rgba(8,145,178,0.16);
+    --text-main: #15365f;
+    --text-muted: #49657f;
+    --accent-blue: #0891b2;
+    --accent-teal: #0ea5a7;
+    --accent-soft: rgba(8,145,178,0.12);
+    --text-soft: #49657f;
+    --shadow-soft: 0 10px 28px rgba(15,118,110,0.12);
+    --radius-xl: 18px;
+    --radius-pill: 999px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
+    background:
+      linear-gradient(rgba(235,250,253,.76), rgba(244,252,253,.93) 42%, rgba(244,252,253,.98)),
+      url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top / cover fixed;
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    justify-content: center;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 18px 80px;
+  }
+
+  .page-header { text-align: center; }
+  .page-header .toolbar { justify-content: center; }
+
+  .breadcrumb {
+    text-transform: uppercase;
+    letter-spacing: .22em;
+    font-size: 12px;
+    color: #0f6f88;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .title {
+    font-size: clamp(28px,3.6vw,42px);
+    font-weight: 800;
+    color: #15365f;
+    text-shadow: 0 1px 0 rgba(255,255,255,.6);
+    margin: 0;
+  }
+
+  .subtitle {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #244c72;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0 26px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pill-button,
+  .link-pill,
+  .offline-box button {
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(8,145,178,.22);
+    background: rgba(255,255,255,.82);
+    color: #15365f;
+    box-shadow: 0 8px 20px rgba(8,145,178,.10);
+    backdrop-filter: blur(8px);
+  }
+
+  .pill-button {
+    padding: 8px 15px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0 10px;
+  }
+
+  .section-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #15365f;
+    font-size: 17px;
+    font-weight: 750;
+  }
+
+  .section-header-left .emoji { font-size: 18px; }
+
+  .cards {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card {
+    background: linear-gradient(180deg,var(--bg-card),var(--bg-card-soft));
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(10px);
+    padding: 18px 19px;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .card-title {
+    color: #15365f;
+    font-size: 17px;
+    font-weight: 750;
+  }
+
+  .card-meta {
+    font-size: 13px;
+    color: #0891b2;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 13px;
+    color: #49657f;
+    margin-top: 6px;
+  }
+
+  .meta-label {
+    color: #244c72;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+
+  .room-value { color: #49657f; font-weight: 400; }
+
+  .card-footer {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .link-pill {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0891b2;
+    text-decoration: none;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+
+  .link-pill:hover,
+  .pill-button:hover {
+    background: rgba(255,255,255,.96);
+    border-color: rgba(8,145,178,.38);
+  }
+
+  .footer-nav {
+    margin-top: 32px;
+    padding-top: 0;
+    border-top: none;
+    font-size: 12px;
+    color: var(--text-soft);
+    text-align: center;
+  }
+
+  .footer-line {
+    max-width: 980px;
+    margin: 0 auto;
+    line-height: 1.45;
+    color: #49657f;
+  }
+
+  .footer-line a {
+    color: #0891b2;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .footer-line a:hover { text-decoration: underline; }
+  .desktop-only { display: inline; }
+  .mobile-only { display: none; }
+
+  .website-browser-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(21,54,95,0.34);
+    backdrop-filter: blur(10px);
+    display: none;
+    flex-direction: column;
+    z-index: 9998;
+  }
+
+  .website-browser-modal-header {
+    height: 52px;
+    background: rgba(255,255,255,0.96);
+    border-bottom: 1px solid rgba(8,145,178,0.16);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    color: #15365f;
+    font-size: 14px;
+  }
+
+  .website-browser-modal-title {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 12px;
+  }
+
+  .website-browser-modal-close {
+    border: 1px solid rgba(8,145,178,.22);
+    background: rgba(255,255,255,.82);
+    color: #15365f;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+
+  .website-browser-modal iframe {
+    width: 100%;
+    height: calc(100vh - 52px);
+    border: 0;
+    background: #eefbff;
+  }
+
+  .offline-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(21,54,95,0.34);
+    backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+
+  .offline-box {
+    max-width: 420px;
+    margin: 20px;
+    padding: 20px 22px;
+    background: linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,255,255,0.99));
+    border: 1px solid rgba(8,145,178,0.16);
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(15,118,110,.18);
+    text-align: center;
+    color: #15365f;
+  }
+
+  .offline-box h2 { margin: 0 0 10px; font-size: 20px; color: #15365f; }
+  .offline-box p { margin: 0 0 16px; font-size: 14px; color: #49657f; line-height: 1.4; }
+  .offline-box button { padding: 8px 16px; color: #0891b2; font-size: 14px; cursor: pointer; }
+
+  @media (max-width: 640px) {
+    .subtitle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      text-align: center;
+    }
+    .subtitle-dates { font-size: 13px; }
+    .card-header { flex-direction: column; align-items: flex-start; }
+    .meta-row { flex-direction: column; gap: 6px; }
+    .card-footer { flex-wrap: wrap; gap: 6px; }
+    .card-footer .link-pill { flex: 1 1 calc(50% - 6px); text-align: center; }
+    .footer-line { line-height: 1.8; }
+    .desktop-only { display: none; }
+    .mobile-only { display: inline; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="page-header">
+    <div class="breadcrumb">FJ-SP-2026-Sep · Fiji Trip</div>
+    <h1 class="title">Flights</h1>
+    <p class="subtitle">
+      <span class="subtitle-main">Air travel for Fiji trip</span>
+      <span class="subtitle-dates">(30 Aug 2026 → 4 Sep 2026)</span>
+    </p>
+    <div class="toolbar">
+      <a class="pill-button" href="https://fj-sp-2026-sep.trekworks.org/" style="color:#0891b2;">← Back to Trip Home</a>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-header">
+      <div class="section-header-left"><span class="emoji">✈️</span> Fiji flights · 30 Aug → 4 Sep</div>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <div class="card-header">
+          <div><div class="card-title">Flight details</div></div>
+          <div class="card-meta">Awaiting confirmed itinerary</div>
+        </div>
+        <div class="meta-row">
+          <div><span class="meta-label">Departure:</span> 30 Aug 2026</div>
+          <div><span class="meta-label">Return:</span> 4 Sep 2026</div>
+        </div>
+        <div class="meta-row">
+          <div><span class="meta-label">To add:</span> Airline, flight numbers, airports, times, booking reference, passengers, seats and baggage.</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="toolbar bottom-home-toolbar" style="justify-content:center; margin: 28px 0 0;">
+    <a class="pill-button" href="https://fj-sp-2026-sep.trekworks.org/" style="color:#0891b2;">← Back to Trip Home</a>
+  </div>
+
+  <footer class="footer-nav">
+    <div class="footer-line desktop-only">
+      For accommodation, see
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-accommodation.html">Accommodation</a>.
+      For trip activities, see
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-activities.html">Activities</a>.
+      For hire car and transport, see
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-hire-car.html">Hire Car</a>.
+      For trip tasks, see
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-task-list.html">Task List</a>.
+    </div>
+    <div class="footer-line mobile-only">
+      See
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-accommodation.html">Accommodation</a>,
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-activities.html">Activities</a>,
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-hire-car.html">Hire Car</a>
+      and
+      <a href="https://fj-sp-2026-sep.trekworks.org/fj-sp-2026-sep-task-list.html">Task List</a>.
+    </div>
+  </footer>
+</main>
+
+<div class="website-browser-modal" id="websiteBrowserModal">
+  <div class="website-browser-modal-header">
+    <div class="website-browser-modal-title" id="websiteBrowserTitle">Flight Link</div>
+    <button class="website-browser-modal-close" onclick="closeWebsiteBrowser()">X Close</button>
+  </div>
+  <iframe id="websiteBrowserFrame" loading="lazy" src=""></iframe>
+</div>
+
+<div class="offline-overlay" id="offlineOverlay">
+  <div class="offline-box">
+    <h2>You’re offline</h2>
+    <p>
+      This content requires an internet connection.<br/>
+      You can continue using other parts of the app while offline.
+    </p>
+    <button onclick="closeOffline()">OK</button>
+  </div>
+</div>
+
+<script>
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function isFrameBlockedExternal(url) {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, '').toLowerCase();
+    return (
+      host === 'jetstar.com' ||
+      host.endsWith('.jetstar.com') ||
+      host === 'flightaware.com' ||
+      host.endsWith('.flightaware.com') ||
+      host === 'seatmaps.com' ||
+      host.endsWith('.seatmaps.com')
+    );
+  } catch {
+    return true;
+  }
+}
+
+function buildExternalLaunchCard(title, url) {
+  const safeTitle = escapeHtml(title || 'Open external link');
+  const safeUrl = escapeHtml(url || '');
+
+  return `
+    <!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+        * { box-sizing: border-box; }
+        body {
+          margin: 0;
+          min-height: 100vh;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          background:
+            linear-gradient(rgba(235,250,253,.76), rgba(244,252,253,.93) 42%, rgba(244,252,253,.98)),
+            url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top / cover fixed;
+          color: #15365f;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 18px;
+        }
+        .launch-card {
+          width: min(560px, 100%);
+          background: linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,255,255,0.99));
+          border: 1px solid rgba(8,145,178,0.16);
+          border-radius: 22px;
+          box-shadow: 0 20px 40px rgba(15,118,110,.18);
+          padding: 22px;
+          text-align: center;
+        }
+        h1 { margin: 0 0 10px; font-size: 20px; line-height: 1.25; color: #15365f; }
+        p { margin: 0 0 16px; color: #49657f; font-size: 14px; line-height: 1.45; }
+        .url {
+          margin: 0 0 16px;
+          padding: 10px 12px;
+          border: 1px solid rgba(8,145,178,0.12);
+          border-radius: 14px;
+          background: rgba(238,251,255,0.72);
+          color: #49657f;
+          font-size: 12px;
+          overflow-wrap: anywhere;
+          text-align: left;
+        }
+        a {
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          border-radius: 999px;
+          border: 1px solid transparent;
+          background: linear-gradient(135deg,#0ea5b7,#0284c7);
+          color: #ffffff;
+          padding: 11px 14px;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 700;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="launch-card">
+        <h1>${safeTitle}</h1>
+        <p>This website may block embedded app views. Open it directly in your browser, then use the X Close button above to return to the trip app.</p>
+        <div class="url">${safeUrl}</div>
+        <a href="${safeUrl}" target="_blank" rel="noopener">Open in Browser</a>
+      </div>
+    </body>
+    </html>`;
+}
+
+function handleExternal(url, title) {
+  const activeText = (document.activeElement && document.activeElement.textContent)
+    ? document.activeElement.textContent.trim()
+    : '';
+
+  const browserTitle = title || activeText || 'External Link';
+
+  verifyConnectivity()
+    .then(function () {
+      const modalTitle = document.getElementById('websiteBrowserTitle');
+      const frame = document.getElementById('websiteBrowserFrame');
+
+      modalTitle.textContent = browserTitle;
+
+      if (isFrameBlockedExternal(url)) {
+        frame.removeAttribute('src');
+        frame.srcdoc = buildExternalLaunchCard(browserTitle, url);
+      } else {
+        frame.removeAttribute('srcdoc');
+        frame.src = 'fj-sp-2026-sep-external.html?url=' + encodeURIComponent(url);
+      }
+
+      document.getElementById('websiteBrowserModal').style.display = 'flex';
+    })
+    .catch(showOffline);
+}
+
+function closeWebsiteBrowser() {
+  const frame = document.getElementById('websiteBrowserFrame');
+  frame.removeAttribute('srcdoc');
+  frame.src = '';
+  document.getElementById('websiteBrowserModal').style.display = 'none';
+}
+
+function verifyConnectivity() {
+  return new Promise(function (resolve, reject) {
+    const controller = new AbortController();
+    const timeout = setTimeout(function () {
+      controller.abort();
+      reject();
+    }, 800);
+
+    fetch('fj-sp-2026-sep-external.html', {
+      cache: 'no-store',
+      signal: controller.signal
+    })
+      .then(function () {
+        clearTimeout(timeout);
+        resolve();
+      })
+      .catch(function () {
+        clearTimeout(timeout);
+        reject();
+      });
+  });
+}
+
+function showOffline() {
+  document.getElementById('offlineOverlay').style.display = 'flex';
+}
+
+function closeOffline() {
+  document.getElementById('offlineOverlay').style.display = 'none';
+}
+
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') {
+    closeWebsiteBrowser();
+    closeOffline();
+  }
+});
+</script>
+</body>
+</html>
