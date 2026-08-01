@@ -4,7 +4,9 @@
 // Scope: subdomain root (./)
 // =====================================================
 
-const CACHE_VERSION = "tw-fj-sp-2026-sep-2026-07-28-v1";
+// Cache version updated 2 Aug 2026 to force a fresh offline cache
+// and normalise current and former Task List filenames.
+const CACHE_VERSION = "tw-fj-sp-2026-sep-2026-08-02-task-list-fix-v2";
 const CACHE_NAME = `trekworks-${CACHE_VERSION}`;
 
 // -----------------------------------------------------
@@ -69,6 +71,8 @@ const CORE_ASSETS = [
   "./assets/audio/fiji-theme.mp3"
 ];
 
+const TASK_LIST_CANONICAL = "./fj-sp-2026-sep-task-list.html";
+
 // -----------------------------------------------------
 // Install
 // -----------------------------------------------------
@@ -127,24 +131,41 @@ async function handleNavigation(request) {
     url.pathname.endsWith("/fj-sp-2026-sep-external.html") ||
     url.pathname === "/fj-sp-2026-sep-external.html";
 
+  const isTaskListRequest =
+    url.pathname.endsWith("/fj-sp-2026-sep-task-list.html") ||
+    url.pathname.endsWith("/fj-sp-2026-sep-task-list-guide.html");
+
   const isTripDocument =
     request.destination === "document" && !isExternalRouter;
 
   const canonicalExternalRequest = new Request("./fj-sp-2026-sep-external.html");
+  const canonicalTaskListRequest = new Request(TASK_LIST_CANONICAL);
   const tripMode = await getTripMode();
+
+  async function matchTripDocument() {
+    // Support the current Task List filename and any retained legacy links.
+    if (isTaskListRequest) {
+      const taskListResponse = await cache.match(canonicalTaskListRequest, {
+        ignoreSearch: true
+      });
+      if (taskListResponse) return taskListResponse;
+    }
+
+    return cache.match(request, { ignoreSearch: true });
+  }
 
   // ================= OFFLINE =================
   if (tripMode === "offline") {
     if (isExternalRouter) {
       return (
-        (await cache.match(canonicalExternalRequest)) ||
+        (await cache.match(canonicalExternalRequest, { ignoreSearch: true })) ||
         (await cache.match("./fj-sp-2026-sep-offline.html"))
       );
     }
 
     if (isTripDocument) {
       return (
-        (await cache.match(request)) ||
+        (await matchTripDocument()) ||
         (await cache.match("./index.html")) ||
         (await cache.match("./fj-sp-2026-sep-offline.html"))
       );
@@ -157,16 +178,19 @@ async function handleNavigation(request) {
 
     if (response && response.ok) {
       if (isExternalRouter) {
-        cache.put(canonicalExternalRequest, response.clone());
+        await cache.put(canonicalExternalRequest, response.clone());
+      } else if (isTaskListRequest) {
+        // Always store the Task List under its current canonical filename.
+        await cache.put(canonicalTaskListRequest, response.clone());
       } else {
-        cache.put(request, response.clone());
+        await cache.put(request, response.clone());
       }
     }
 
     return response;
   } catch {
     return (
-      (await cache.match(request)) ||
+      (await matchTripDocument()) ||
       (await cache.match("./index.html")) ||
       (await cache.match("./fj-sp-2026-sep-offline.html"))
     );
