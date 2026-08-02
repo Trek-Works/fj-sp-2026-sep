@@ -182,12 +182,20 @@
 
   .link-pill {
     padding: 6px 12px;
+    font-family: inherit;
     font-size: 12px;
     font-weight: 700;
+    line-height: 1.2;
     color: #0891b2;
     text-decoration: none;
     white-space: nowrap;
     flex: 0 0 auto;
+    cursor: pointer;
+  }
+
+  .boarding-pass-pill {
+    appearance: none;
+    -webkit-appearance: none;
   }
 
   .link-pill:hover,
@@ -348,6 +356,12 @@
         <div class="meta-row">
           <div><span class="meta-label">To add:</span> Airline, flight numbers, airports, times, booking reference, passengers, seats and baggage.</div>
         </div>
+        <div class="card-footer">
+          <button class="link-pill boarding-pass-pill" type="button" onclick="handleBoardingPass('', 'Steph', 'Fiji Flights')">Steph · Boarding Pass</button>
+          <button class="link-pill boarding-pass-pill" type="button" onclick="handleBoardingPass('', 'Sister', 'Fiji Flights')">Sister · Boarding Pass</button>
+          <button class="link-pill boarding-pass-pill" type="button" onclick="handleBoardingPass('', 'Mum', 'Fiji Flights')">Mum · Boarding Pass</button>
+          <button class="link-pill boarding-pass-pill" type="button" onclick="handleBoardingPass('', 'Dad', 'Fiji Flights')">Dad · Boarding Pass</button>
+        </div>
       </article>
     </div>
   </section>
@@ -495,6 +509,125 @@ function buildExternalLaunchCard(title, url) {
       </div>
     </body>
     </html>`;
+}
+
+function buildBoardingPassPlaceholderCard(travellerName, flightNumber) {
+  const safeTraveller = escapeHtml(travellerName || 'Traveller');
+  const safeFlight = escapeHtml(flightNumber || 'Flight');
+
+  return `
+    <!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+        * { box-sizing: border-box; }
+        body {
+          margin: 0;
+          min-height: 100vh;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          background:
+            linear-gradient(rgba(235,250,253,.76), rgba(244,252,253,.93) 42%, rgba(244,252,253,.98)),
+            url("https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1920&auto=format&fit=crop") center top / cover fixed;
+          color: #15365f;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 18px;
+        }
+        .placeholder-card {
+          width: min(520px, 100%);
+          background: linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,255,255,0.99));
+          border: 1px solid rgba(8,145,178,0.16);
+          border-radius: 22px;
+          box-shadow: 0 20px 40px rgba(15,118,110,.18);
+          padding: 24px;
+          text-align: center;
+        }
+        .icon { font-size: 34px; margin-bottom: 10px; }
+        h1 { margin: 0 0 8px; font-size: 21px; line-height: 1.25; color: #15365f; }
+        p { margin: 0; color: #49657f; font-size: 14px; line-height: 1.5; }
+        .flight {
+          display: inline-block;
+          margin-top: 14px;
+          padding: 7px 12px;
+          border-radius: 999px;
+          background: rgba(8,145,178,.10);
+          color: #0891b2;
+          font-size: 12px;
+          font-weight: 700;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="placeholder-card">
+        <div class="icon">🎫</div>
+        <h1>${safeTraveller}'s Boarding Pass</h1>
+        <p>The boarding pass has not yet been added. This placeholder can be updated with the traveller's Google Drive URL when it becomes available.</p>
+        <div class="flight">${safeFlight}</div>
+      </div>
+    </body>
+    </html>`;
+}
+
+function getGoogleDrivePreviewUrl(url) {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, '').toLowerCase();
+
+    if (host !== 'drive.google.com' && host !== 'docs.google.com') {
+      return '';
+    }
+
+    let fileId = '';
+    const fileMatch = parsed.pathname.match(/\/file\/d\/([^/]+)/i);
+    if (fileMatch && fileMatch[1]) {
+      fileId = fileMatch[1];
+    }
+
+    if (!fileId) {
+      fileId = parsed.searchParams.get('id') || '';
+    }
+
+    return fileId
+      ? 'https://drive.google.com/file/d/' + encodeURIComponent(fileId) + '/preview'
+      : '';
+  } catch {
+    return '';
+  }
+}
+
+function handleBoardingPass(url, travellerName, flightNumber) {
+  const browserTitle = 'Boarding Pass — ' + travellerName + (flightNumber ? ' · ' + flightNumber : '');
+  const modal = document.getElementById('websiteBrowserModal');
+  const modalTitle = document.getElementById('websiteBrowserTitle');
+  const frame = document.getElementById('websiteBrowserFrame');
+  const cleanUrl = String(url || '').trim();
+
+  modalTitle.textContent = browserTitle;
+
+  if (!cleanUrl || cleanUrl === '#') {
+    frame.removeAttribute('src');
+    frame.srcdoc = buildBoardingPassPlaceholderCard(travellerName, flightNumber);
+    modal.style.display = 'flex';
+    return;
+  }
+
+  const googleDrivePreviewUrl = getGoogleDrivePreviewUrl(cleanUrl);
+
+  if (!googleDrivePreviewUrl) {
+    handleExternal(cleanUrl, browserTitle);
+    return;
+  }
+
+  verifyConnectivity()
+    .then(function () {
+      frame.removeAttribute('srcdoc');
+      frame.src = googleDrivePreviewUrl;
+      modal.style.display = 'flex';
+    })
+    .catch(showOffline);
 }
 
 function handleExternal(url, title) {
